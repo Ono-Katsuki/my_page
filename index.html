@@ -162,7 +162,7 @@
             requestAnimationFrame(animate);
 
             if (isTransitioning) {
-                transitionProgress += 0.01;
+                transitionProgress += 0.02;
                 if (transitionProgress >= 1) {
                     isTransitioning = false;
                     transitionProgress = 0;
@@ -191,9 +191,9 @@
                     positions[i3 + 1] += (Math.random() - 0.5) * 0.01;
                     positions[i3 + 2] += (Math.random() - 0.5) * 0.01;
 
-                    if (positions[i3] < -5 || positions[i3] > 5) positions[i3] *= -1;
-                    if (positions[i3 + 1] < -5 || positions[i3 + 1] > 5) positions[i3 + 1] *= -1;
-                    if (positions[i3 + 2] < -5 || positions[i3 + 2] > 5) positions[i3 + 2] *= -1;
+                    if (positions[i3] < -5 || positions[i3] > 5) positions[i3] *= -0.9;
+                    if (positions[i3 + 1] < -5 || positions[i3 + 1] > 5) positions[i3 + 1] *= -0.9;
+                    if (positions[i3 + 2] < -5 || positions[i3 + 2] > 5) positions[i3 + 2] *= -0.9;
                 }
             }
 
@@ -214,10 +214,12 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        document.addEventListener('click', () => {
-            isSphere = !isSphere;
-            isTransitioning = true;
-            transitionProgress = 0;
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('.link')) {
+                isSphere = !isSphere;
+                isTransitioning = true;
+                transitionProgress = 0;
+            }
         });
 
         // Link hover effects
@@ -235,6 +237,10 @@
             link.addEventListener('mouseleave', () => {
                 overlay.style.opacity = '0';
                 overlay.style.visibility = 'hidden';
+            });
+
+            link.addEventListener('click', (event) => {
+                event.stopPropagation();
             });
         });
     </script>
