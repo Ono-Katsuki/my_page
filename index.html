@@ -50,7 +50,7 @@
             justify-content: center;
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
-            color: #333;
+            color: white;
             padding: 15px 30px;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -65,10 +65,6 @@
         .link:hover {
             transform: scale(1.05) rotate(1deg);
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
-        .link-icon {
-            font-size: 1.5rem;
-            margin-right: 15px;
         }
         .link-label {
             font-size: 1.1rem;
@@ -103,15 +99,12 @@
         <h1>Katsuki Ono</h1>
         <div class="links">
             <a href="https://www.facebook.com/katsuki.hirai" class="link" target="_blank" rel="noopener noreferrer">
-                <span class="link-icon">📘</span>
                 <span class="link-label">Facebook</span>
             </a>
             <a href="https://x.com/katsuki_o_h?s=21&t=FRRvt_E9oXOXMxkHwb2yhQ" class="link" target="_blank" rel="noopener noreferrer">
-                <span class="link-icon">🐦</span>
                 <span class="link-label">Twitter</span>
             </a>
             <a href="https://www.linkedin.com/in/katsuki-ono-hirai-341629188?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" class="link" target="_blank" rel="noopener noreferrer">
-                <span class="link-icon">💼</span>
                 <span class="link-label">LinkedIn</span>
             </a>
         </div>
@@ -153,8 +146,13 @@
         const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particlesMesh);
 
+        // Torus Knot
+        const torusKnotGeometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
+        const torusKnotMesh = new THREE.Mesh(torusKnotGeometry, new THREE.MeshBasicMaterial({ visible: false }));
+        scene.add(torusKnotMesh);
+
         // Animation
-        let isSphere = false;
+        let isTorusKnot = false;
         let isTransitioning = false;
         let transitionProgress = 0;
 
@@ -170,18 +168,16 @@
             }
 
             const positions = particlesGeometry.attributes.position.array;
+            const torusKnotPositions = torusKnotGeometry.attributes.position.array;
 
             for (let i = 0; i < particlesCount; i++) {
                 const i3 = i * 3;
 
-                if (isSphere) {
-                    const radius = 2;
-                    const theta = Math.random() * Math.PI * 2;
-                    const phi = Math.acos(1 - 2 * Math.random());
-
-                    const targetX = radius * Math.sin(phi) * Math.cos(theta);
-                    const targetY = radius * Math.sin(phi) * Math.sin(theta);
-                    const targetZ = radius * Math.cos(phi);
+                if (isTorusKnot) {
+                    const torusKnotIndex = i % torusKnotPositions.length;
+                    const targetX = torusKnotPositions[torusKnotIndex] * 2;
+                    const targetY = torusKnotPositions[torusKnotIndex + 1] * 2;
+                    const targetZ = torusKnotPositions[torusKnotIndex + 2] * 2;
 
                     positions[i3] += (targetX - positions[i3]) * 0.02;
                     positions[i3 + 1] += (targetY - positions[i3 + 1]) * 0.02;
@@ -199,8 +195,8 @@
 
             particlesGeometry.attributes.position.needsUpdate = true;
 
-            particlesMesh.rotation.x += 0.001;
-            particlesMesh.rotation.y += 0.001;
+            torusKnotMesh.rotation.x += 0.01;
+            torusKnotMesh.rotation.y += 0.01;
 
             renderer.render(scene, camera);
         }
@@ -216,7 +212,7 @@
 
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.link')) {
-                isSphere = !isSphere;
+                isTorusKnot = !isTorusKnot;
                 isTransitioning = true;
                 transitionProgress = 0;
             }
