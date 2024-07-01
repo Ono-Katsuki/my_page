@@ -162,7 +162,7 @@
             requestAnimationFrame(animate);
 
             if (isTransitioning) {
-                transitionProgress += 0.02;
+                transitionProgress += 0.01;
                 if (transitionProgress >= 1) {
                     isTransitioning = false;
                     transitionProgress = 0;
@@ -191,9 +191,9 @@
                     positions[i3 + 1] += (Math.random() - 0.5) * 0.01;
                     positions[i3 + 2] += (Math.random() - 0.5) * 0.01;
 
-                    if (positions[i3] < -5 || positions[i3] > 5) positions[i3] *= -0.9;
-                    if (positions[i3 + 1] < -5 || positions[i3 + 1] > 5) positions[i3 + 1] *= -0.9;
-                    if (positions[i3 + 2] < -5 || positions[i3 + 2] > 5) positions[i3 + 2] *= -0.9;
+                    if (positions[i3] < -5 || positions[i3] > 5) positions[i3] *= -1;
+                    if (positions[i3 + 1] < -5 || positions[i3 + 1] > 5) positions[i3 + 1] *= -1;
+                    if (positions[i3 + 2] < -5 || positions[i3 + 2] > 5) positions[i3 + 2] *= -1;
                 }
             }
 
@@ -239,8 +239,10 @@
                 overlay.style.visibility = 'hidden';
             });
 
-            link.addEventListener('click', (event) => {
-                event.stopPropagation();
+            // タッチデバイス用の処理
+            link.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // デフォルトの動作を防止
+                window.location.href = link.href; // リンク先に移動
             });
         });
     </script>
