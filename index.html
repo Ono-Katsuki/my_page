@@ -60,6 +60,7 @@
         .link:hover {
             transform: scale(1.05) rotate(1deg);
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.2);
         }
         .link-label {
             font-size: 1.1rem;
@@ -111,119 +112,92 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/fonts/helvetiker_regular.typeface.json"></script>
     <script>
         // Three.js setup
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000);
         document.getElementById('scene').appendChild(renderer.domElement);
 
-        camera.position.z = 5;
-
-        // Text particles
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        canvas.width = 1024;
-        canvas.height = 512;
-        context.fillStyle = '#ffffff';
-        context.font = 'bold 100px Arial';
-        context.fillText('Katsuki Ono', 20, 200);
-
-        const textureData = context.getImageData(0, 0, canvas.width, canvas.height);
-        const textParticles = [];
-
-        for (let y = 0; y < textureData.height; y += 1) {
-            for (let x = 0; x < textureData.width; x += 1) {
-                if (textureData.data[(x + y * textureData.width) * 4 + 3] > 128) {
-                    const particle = {
-                        x: (x / textureData.width - 0.5) * 10,
-                        y: (-y / textureData.height + 0.5) * 5,
-                    };
-                    textParticles.push(particle);
-                }
-            }
-        }
-
-        console.log("Number of text particles:", textParticles.length);
+        camera.position.z = 15;
 
         // Particle system
-        const particlesCount = Math.max(10000, textParticles.length);
+        const particlesCount = 10000;
+        const particlesGeometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particlesCount * 3);
-        const scales = new Float32Array(particlesCount);
 
-        for (let i = 0; i < particlesCount; i++) {
-            if (i < textParticles.length) {
-                positions[i * 3] = textParticles[i].x;
-                positions[i * 3 + 1] = textParticles[i].y;
-                positions[i * 3 + 2] = 0;
-            } else {
-                positions[i * 3] = (Math.random() - 0.5) * 10;
-                positions[i * 3 + 1] = (Math.random() - 0.5) * 10;
-                positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
-            }
-            scales[i] = Math.random() * 0.5 + 0.5;
+        for (let i = 0; i < particlesCount * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 20;
         }
 
-        const geometry = new THREE.BufferGeometry();
-        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-        const material = new THREE.ShaderMaterial({
-            uniforms: {
-                color: { value: new THREE.Color(0xffffff) },
-            },
-            vertexShader: `
-                attribute float scale;
-                void main() {
-                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-                    gl_PointSize = scale * (300.0 / -mvPosition.z);
-                    gl_Position = projectionMatrix * mvPosition;
-                }
-            `,
-            fragmentShader: `
-                uniform vec3 color;
-                void main() {
-                    if (length(gl_PointCoord - vec2(0.5, 0.5)) > 0.475) discard;
-                    gl_FragColor = vec4(color, 1.0);
-                }
-            `,
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.02,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.8,
         });
 
-        const particles = new THREE.Points(geometry, material);
-        scene.add(particles);
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        // Text geometry
+        let textMesh;
+        const loader = new THREE.FontLoader();
+        loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+            const textGeometry = new THREE.TextGeometry('Katsuki Ono', {
+                font: font,
+                size: 1.5,
+                height: 0.1,
+                curveSegments: 12,
+                bevelEnabled: false,
+            });
+
+            textGeometry.center();
+
+            const textMaterial = new THREE.MeshBasicMaterial({ visible: false });
+            textMesh = new THREE.Mesh(textGeometry, textMaterial);
+            scene.add(textMesh);
+        });
 
         // Animation
-        let isTextMode = true;
-        let time = 0;
+        let isTextMode = false;
+        let isTransitioning = false;
 
         function animate() {
             requestAnimationFrame(animate);
 
-            time += 0.01;
-
-            const positions = particles.geometry.attributes.position.array;
+            const positions = particlesGeometry.attributes.position.array;
 
             for (let i = 0; i < particlesCount; i++) {
                 const i3 = i * 3;
 
-                if (isTextMode && i < textParticles.length) {
-                    const particle = textParticles[i];
-                    positions[i3] += (particle.x - positions[i3]) * 0.1;
-                    positions[i3 + 1] += (particle.y - positions[i3 + 1]) * 0.1;
-                    positions[i3 + 2] += (0 - positions[i3 + 2]) * 0.1;
+                if (isTextMode && textMesh) {
+                    const textPositions = textMesh.geometry.attributes.position.array;
+                    const textIndex = i % textPositions.length;
+                    const targetX = textPositions[textIndex * 3];
+                    const targetY = textPositions[textIndex * 3 + 1];
+                    const targetZ = textPositions[textIndex * 3 + 2];
+
+                    positions[i3] += (targetX - positions[i3]) * 0.1;
+                    positions[i3 + 1] += (targetY - positions[i3 + 1]) * 0.1;
+                    positions[i3 + 2] += (targetZ - positions[i3 + 2]) * 0.1;
                 } else {
                     positions[i3] += (Math.random() - 0.5) * 0.01;
                     positions[i3 + 1] += (Math.random() - 0.5) * 0.01;
                     positions[i3 + 2] += (Math.random() - 0.5) * 0.01;
 
-                    if (positions[i3] < -5 || positions[i3] > 5) positions[i3] *= -1;
-                    if (positions[i3 + 1] < -5 || positions[i3 + 1] > 5) positions[i3 + 1] *= -1;
-                    if (positions[i3 + 2] < -5 || positions[i3 + 2] > 5) positions[i3 + 2] *= -1;
+                    if (Math.abs(positions[i3]) > 10) positions[i3] *= -1;
+                    if (Math.abs(positions[i3 + 1]) > 10) positions[i3 + 1] *= -1;
+                    if (Math.abs(positions[i3 + 2]) > 10) positions[i3 + 2] *= -1;
                 }
             }
 
-            particles.geometry.attributes.position.needsUpdate = true;
+            particlesGeometry.attributes.position.needsUpdate = true;
 
             renderer.render(scene, camera);
         }
@@ -240,7 +214,6 @@
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.link')) {
                 isTextMode = !isTextMode;
-                console.log("Switched to", isTextMode ? "text mode" : "free mode");
             }
         });
 
@@ -263,8 +236,8 @@
 
             // タッチデバイス用の処理
             link.addEventListener('touchstart', (e) => {
-                e.preventDefault(); // デフォルトの動作を防止
-                window.location.href = link.href; // リンク先に移動
+                e.preventDefault();
+                window.location.href = link.href;
             });
         });
     </script>
