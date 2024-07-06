@@ -11,6 +11,7 @@
             font-family: Arial, sans-serif;
             height: 100%;
             overflow: hidden;
+            background-color: #000;
         }
         #scene {
             position: fixed;
@@ -33,12 +34,6 @@
             padding: 20px;
             box-sizing: border-box;
         }
-        h1 {
-            font-size: 4rem;
-            color: #333;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
         .links {
             display: flex;
             flex-direction: column;
@@ -48,7 +43,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             color: white;
             padding: 15px 30px;
@@ -96,7 +91,6 @@
 <body>
     <div id="scene"></div>
     <div class="container">
-        <h1>Katsuki Ono</h1>
         <div class="links">
             <a href="https://www.facebook.com/katsuki.hirai" class="link" target="_blank" rel="noopener noreferrer">
                 <span class="link-label">Facebook</span>
@@ -127,61 +121,97 @@
 
         camera.position.z = 5;
 
-        // Particle system
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 5000;
+        // Text particles
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = 1024;
+        canvas.height = 512;
+        context.fillStyle = '#ffffff';
+        context.font = 'bold 100px Arial';
+        context.fillText('Katsuki Ono', 20, 200);
 
-        const posArray = new Float32Array(particlesCount * 3);
-        for(let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 10;
+        const textureData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const textParticles = [];
+
+        for (let y = 0; y < textureData.height; y += 1) {
+            for (let x = 0; x < textureData.width; x += 1) {
+                if (textureData.data[(x + y * textureData.width) * 4 + 3] > 128) {
+                    const particle = {
+                        x: (x / textureData.width - 0.5) * 10,
+                        y: (-y / textureData.height + 0.5) * 5,
+                    };
+                    textParticles.push(particle);
+                }
+            }
         }
 
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        console.log("Number of text particles:", textParticles.length);
 
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.005,
-            color: 0xffffff
+        // Particle system
+        const particlesCount = Math.max(10000, textParticles.length);
+        const positions = new Float32Array(particlesCount * 3);
+        const scales = new Float32Array(particlesCount);
+
+        for (let i = 0; i < particlesCount; i++) {
+            if (i < textParticles.length) {
+                positions[i * 3] = textParticles[i].x;
+                positions[i * 3 + 1] = textParticles[i].y;
+                positions[i * 3 + 2] = 0;
+            } else {
+                positions[i * 3] = (Math.random() - 0.5) * 10;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 10;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
+            }
+            scales[i] = Math.random() * 0.5 + 0.5;
+        }
+
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
+
+        const material = new THREE.ShaderMaterial({
+            uniforms: {
+                color: { value: new THREE.Color(0xffffff) },
+            },
+            vertexShader: `
+                attribute float scale;
+                void main() {
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    gl_PointSize = scale * (300.0 / -mvPosition.z);
+                    gl_Position = projectionMatrix * mvPosition;
+                }
+            `,
+            fragmentShader: `
+                uniform vec3 color;
+                void main() {
+                    if (length(gl_PointCoord - vec2(0.5, 0.5)) > 0.475) discard;
+                    gl_FragColor = vec4(color, 1.0);
+                }
+            `,
         });
 
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-
-        // Torus Knot
-        const torusKnotGeometry = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
-        const torusKnotMesh = new THREE.Mesh(torusKnotGeometry, new THREE.MeshBasicMaterial({ visible: false }));
-        scene.add(torusKnotMesh);
+        const particles = new THREE.Points(geometry, material);
+        scene.add(particles);
 
         // Animation
-        let isTorusKnot = false;
-        let isTransitioning = false;
-        let transitionProgress = 0;
+        let isTextMode = true;
+        let time = 0;
 
         function animate() {
             requestAnimationFrame(animate);
 
-            if (isTransitioning) {
-                transitionProgress += 0.01;
-                if (transitionProgress >= 1) {
-                    isTransitioning = false;
-                    transitionProgress = 0;
-                }
-            }
+            time += 0.01;
 
-            const positions = particlesGeometry.attributes.position.array;
-            const torusKnotPositions = torusKnotGeometry.attributes.position.array;
+            const positions = particles.geometry.attributes.position.array;
 
             for (let i = 0; i < particlesCount; i++) {
                 const i3 = i * 3;
 
-                if (isTorusKnot) {
-                    const torusKnotIndex = i % torusKnotPositions.length;
-                    const targetX = torusKnotPositions[torusKnotIndex] * 2;
-                    const targetY = torusKnotPositions[torusKnotIndex + 1] * 2;
-                    const targetZ = torusKnotPositions[torusKnotIndex + 2] * 2;
-
-                    positions[i3] += (targetX - positions[i3]) * 0.02;
-                    positions[i3 + 1] += (targetY - positions[i3 + 1]) * 0.02;
-                    positions[i3 + 2] += (targetZ - positions[i3 + 2]) * 0.02;
+                if (isTextMode && i < textParticles.length) {
+                    const particle = textParticles[i];
+                    positions[i3] += (particle.x - positions[i3]) * 0.1;
+                    positions[i3 + 1] += (particle.y - positions[i3 + 1]) * 0.1;
+                    positions[i3 + 2] += (0 - positions[i3 + 2]) * 0.1;
                 } else {
                     positions[i3] += (Math.random() - 0.5) * 0.01;
                     positions[i3 + 1] += (Math.random() - 0.5) * 0.01;
@@ -193,10 +223,7 @@
                 }
             }
 
-            particlesGeometry.attributes.position.needsUpdate = true;
-
-            torusKnotMesh.rotation.x += 0.01;
-            torusKnotMesh.rotation.y += 0.01;
+            particles.geometry.attributes.position.needsUpdate = true;
 
             renderer.render(scene, camera);
         }
@@ -212,9 +239,8 @@
 
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.link')) {
-                isTorusKnot = !isTorusKnot;
-                isTransitioning = true;
-                transitionProgress = 0;
+                isTextMode = !isTextMode;
+                console.log("Switched to", isTextMode ? "text mode" : "free mode");
             }
         });
 
