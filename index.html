@@ -39,7 +39,6 @@
             flex-direction: column;
             align-items: center;
             transition: all 0.5s ease;
-            margin-top: 150px; /* Initial position for name mode */
         }
         .link {
             display: flex;
@@ -93,34 +92,8 @@
         camera.position.z = 1000;
         camera.position.y = -50;
 
-        // Custom 2D text rendering
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = 512;
-        canvas.height = 128;
-        ctx.fillStyle = 'white';
-        ctx.font = 'bold 60px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('Katsuki Ono', canvas.width / 2, canvas.height / 2);
-
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const textPixels = [];
-
-        for (let y = 0; y < imageData.height; y += 2) {
-            for (let x = 0; x < imageData.width; x += 2) {
-                const i = (y * imageData.width + x) * 4;
-                if (imageData.data[i] > 0) {
-                    textPixels.push({
-                        x: (x / imageData.width - 0.5) * 2,
-                        y: (-y / imageData.height + 0.5)
-                    });
-                }
-            }
-        }
-
         // Particle system
-        const particlesCount = textPixels.length;
+        const particlesCount = 1000;
         const particlesGeometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particlesCount * 3);
         const colors = new Float32Array(particlesCount * 3);
@@ -164,9 +137,9 @@
             matrixPositions[i * 3 + 2] = (Math.random() - 0.5) * 500;
 
             const brightness = Math.random() * 0.5 + 0.5;
-            matrixColors[i * 3] = brightness;
-            matrixColors[i * 3 + 1] = brightness;
-            matrixColors[i * 3 + 2] = brightness;
+            matrixColors[i * 3] = 0; // Red
+            matrixColors[i * 3 + 1] = brightness; // Green
+            matrixColors[i * 3 + 2] = 0; // Blue
         }
 
         matrixGeometry.setAttribute('position', new THREE.BufferAttribute(matrixPositions, 3));
@@ -197,7 +170,6 @@
         scene.add(starsMesh);
 
         // Animation
-        let isTextMode = true;
         let time = 0;
 
         function updateParticleColors() {
@@ -226,24 +198,13 @@
 
             for (let i = 0; i < particlesCount; i++) {
                 const i3 = i * 3;
+                const angle = Math.atan2(positions[i3 + 1], positions[i3]);
+                const radius = Math.sqrt(positions[i3] ** 2 + positions[i3 + 1] ** 2);
+                const newAngle = angle + 0.01 / (radius / 400);
 
-                if (isTextMode) {
-                    const targetX = textPixels[i].x * 300;
-                    const targetY = textPixels[i].y * 150 + 100;
-                    const targetZ = 0;
-
-                    positions[i3] += (targetX - positions[i3]) * 0.2;
-                    positions[i3 + 1] += (targetY - positions[i3 + 1]) * 0.2;
-                    positions[i3 + 2] += (targetZ - positions[i3 + 2]) * 0.2;
-                } else {
-                    const angle = Math.atan2(positions[i3 + 1], positions[i3]);
-                    const radius = Math.sqrt(positions[i3] ** 2 + positions[i3 + 1] ** 2);
-                    const newAngle = angle + 0.01 / (radius / 400);
-
-                    positions[i3] = Math.cos(newAngle) * radius;
-                    positions[i3 + 1] = Math.sin(newAngle) * radius;
-                    positions[i3 + 2] = Math.sin(time * 4 * radius * 0.005) * 100;
-                }
+                positions[i3] = Math.cos(newAngle) * radius;
+                positions[i3 + 1] = Math.sin(newAngle) * radius;
+                positions[i3 + 2] = Math.sin(time * 4 * radius * 0.005) * 100;
             }
 
             // Animate matrix particles
@@ -278,18 +239,6 @@
         }
 
         window.addEventListener('resize', onWindowResize);
-
-        document.addEventListener('click', (event) => {
-            if (!event.target.closest('.link')) {
-                isTextMode = !isTextMode;
-                const links = document.querySelector('.links');
-                if (isTextMode) {
-                    links.style.marginTop = '150px';
-                } else {
-                    links.style.marginTop = '0';
-                }
-            }
-        });
 
         // Utility function to convert HSL to RGB
         function hslToRgb(h, s, l) {
