@@ -39,6 +39,7 @@
             flex-direction: column;
             align-items: center;
             transition: all 0.5s ease;
+            margin-top: 150px; /* Initial position for name mode */
         }
         .link {
             display: flex;
@@ -47,17 +48,18 @@
             width: 200px;
             padding: 10px 20px;
             margin: 10px 0;
-            background-color: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background-color: rgba(0, 255, 0, 0.2);
+            border: 1px solid rgba(0, 255, 0, 0.3);
             border-radius: 5px;
-            color: #fff;
+            color: #0f0;
             text-decoration: none;
             font-size: 18px;
+            font-family: 'Courier New', monospace;
             transition: all 0.3s ease;
             cursor: pointer;
         }
         .link:hover {
-            background-color: rgba(255, 255, 255, 0.3);
+            background-color: rgba(0, 255, 0, 0.3);
             transform: scale(1.05);
         }
     </style>
@@ -94,10 +96,10 @@
         // Custom 2D text rendering
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = 1024;
-        canvas.height = 256;
+        canvas.width = 512;
+        canvas.height = 128;
         ctx.fillStyle = 'white';
-        ctx.font = 'bold 120px Arial';
+        ctx.font = 'bold 60px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText('Katsuki Ono', canvas.width / 2, canvas.height / 2);
@@ -105,8 +107,8 @@
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const textPixels = [];
 
-        for (let y = 0; y < imageData.height; y += 4) {
-            for (let x = 0; x < imageData.width; x += 4) {
+        for (let y = 0; y < imageData.height; y += 2) {
+            for (let x = 0; x < imageData.width; x += 2) {
                 const i = (y * imageData.width + x) * 4;
                 if (imageData.data[i] > 0) {
                     textPixels.push({
@@ -140,7 +142,7 @@
         particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 8,
+            size: 4,
             vertexColors: true,
             transparent: true,
             opacity: 0.8,
@@ -149,6 +151,37 @@
 
         const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particlesMesh);
+
+        // Matrix-style particles
+        const matrixParticlesCount = 500;
+        const matrixGeometry = new THREE.BufferGeometry();
+        const matrixPositions = new Float32Array(matrixParticlesCount * 3);
+        const matrixColors = new Float32Array(matrixParticlesCount * 3);
+
+        for (let i = 0; i < matrixParticlesCount; i++) {
+            matrixPositions[i * 3] = (Math.random() - 0.5) * window.innerWidth;
+            matrixPositions[i * 3 + 1] = Math.random() * window.innerHeight;
+            matrixPositions[i * 3 + 2] = (Math.random() - 0.5) * 500;
+
+            const brightness = Math.random() * 0.5 + 0.5;
+            matrixColors[i * 3] = brightness;
+            matrixColors[i * 3 + 1] = brightness;
+            matrixColors[i * 3 + 2] = brightness;
+        }
+
+        matrixGeometry.setAttribute('position', new THREE.BufferAttribute(matrixPositions, 3));
+        matrixGeometry.setAttribute('color', new THREE.BufferAttribute(matrixColors, 3));
+
+        const matrixMaterial = new THREE.PointsMaterial({
+            size: 4,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending
+        });
+
+        const matrixMesh = new THREE.Points(matrixGeometry, matrixMaterial);
+        scene.add(matrixMesh);
 
         // Background stars
         const starsGeometry = new THREE.BufferGeometry();
@@ -189,13 +222,14 @@
             updateParticleColors();
 
             const positions = particlesGeometry.attributes.position.array;
+            const matrixPositions = matrixGeometry.attributes.position.array;
 
             for (let i = 0; i < particlesCount; i++) {
                 const i3 = i * 3;
 
                 if (isTextMode) {
-                    const targetX = textPixels[i].x * 400;
-                    const targetY = textPixels[i].y * 200 + 150;
+                    const targetX = textPixels[i].x * 300;
+                    const targetY = textPixels[i].y * 150 + 100;
                     const targetZ = 0;
 
                     positions[i3] += (targetX - positions[i3]) * 0.2;
@@ -212,7 +246,20 @@
                 }
             }
 
+            // Animate matrix particles
+            for (let i = 0; i < matrixParticlesCount; i++) {
+                const i3 = i * 3;
+                matrixPositions[i3 + 1] -= 2; // Move downwards
+
+                // Reset particle to top when it goes off-screen
+                if (matrixPositions[i3 + 1] < -window.innerHeight / 2) {
+                    matrixPositions[i3 + 1] = window.innerHeight / 2;
+                    matrixPositions[i3] = (Math.random() - 0.5) * window.innerWidth;
+                }
+            }
+
             particlesGeometry.attributes.position.needsUpdate = true;
+            matrixGeometry.attributes.position.needsUpdate = true;
 
             // Rotate background stars
             starsMesh.rotation.x += 0.002;
@@ -235,13 +282,10 @@
         document.addEventListener('click', (event) => {
             if (!event.target.closest('.link')) {
                 isTextMode = !isTextMode;
-                const container = document.querySelector('.container');
                 const links = document.querySelector('.links');
                 if (isTextMode) {
-                    container.style.justifyContent = 'center';
                     links.style.marginTop = '150px';
                 } else {
-                    container.style.justifyContent = 'center';
                     links.style.marginTop = '0';
                 }
             }
