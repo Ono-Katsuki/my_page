@@ -297,7 +297,6 @@
         window.addEventListener('resize', onWindowResize);
 
         document.addEventListener('click', () => {
-            isTextMode = !isTextMode;
             const links = document.querySelector('.links');
             if (isTextMode) {
                 links.style.marginTop = '150px';
