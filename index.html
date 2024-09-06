@@ -1,268 +1,186 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <title>Katsuki Ono - Interactive Link Tree</title>
+    <title>Katsuki Ono - Cyberpunk Link Tree</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000;
-            font-family: Arial, sans-serif;
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: black;
+            color: #00ffff;
         }
-        #scene {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
+        .glitch-text {
+            position: relative;
         }
-        .container {
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 3;
         }
-        .links {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 150px;
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00ff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
         }
-        .link {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            width: 200px;
-            padding: 10px 20px;
-            margin: 10px 0;
-            background-color: rgba(0, 255, 0, 0.2);
-            border: 1px solid rgba(0, 255, 0, 0.3);
-            border-radius: 5px;
-            color: #0f0;
-            text-decoration: none;
-            font-size: 18px;
-            font-family: 'Courier New', monospace;
-            transition: all 0.3s ease;
-            cursor: pointer;
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ff00;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
         }
-        .link:hover {
-            background-color: rgba(0, 255, 0, 0.3);
-            transform: scale(1.05);
-        }
-        .link i {
-            margin-right: 10px;
-            font-size: 20px;
-        }
-        .floating-article {
-            position: absolute;
-            background-color: rgba(0, 255, 0, 0.2);
-            border: 2px solid rgba(0, 255, 0, 0.5);
-            border-radius: 15px;
-            padding: 20px;
-            color: #0f0;
-            font-family: 'Courier New', monospace;
-            font-size: 18px;
-            text-decoration: none;
-            max-width: 300px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            pointer-events: auto;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
-            z-index: 10;
-        }
-        .floating-article:hover {
-            background-color: rgba(0, 255, 0, 0.4);
-            transform: scale(1.1);
-            box-shadow: 0 0 25px rgba(0, 255, 0, 0.5);
+        @keyframes glitch-anim {
+            0% {
+                clip: rect(31px, 9999px, 94px, 0);
+            }
+            20% {
+                clip: rect(62px, 9999px, 82px, 0);
+            }
+            40% {
+                clip: rect(35px, 9999px, 78px, 0);
+            }
+            60% {
+                clip: rect(93px, 9999px, 11px, 0);
+            }
+            80% {
+                clip: rect(79px, 9999px, 98px, 0);
+            }
+            100% {
+                clip: rect(12px, 9999px, 86px, 0);
+            }
         }
     </style>
 </head>
-<body>
-    <div id="scene"></div>
-    <div class="container">
-        <div class="links">
-            <a href="https://www.facebook.com/katsuki.hirai" class="link" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-facebook"></i>
-                <span class="link-label">Facebook</span>
-            </a>
-            <a href="https://x.com/katsuki_o_h?s=21&t=FRRvt_E9oXOXMxkHwb2yhQ" class="link" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-twitter"></i>
-                <span class="link-label">Twitter</span>
-            </a>
-            <a href="https://www.linkedin.com/in/katsuki-ono-hirai-341629188?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" class="link" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-linkedin"></i>
-                <span class="link-label">LinkedIn</span>
-            </a>
-            <a href="mailto:wheelono@gmail.com" class="link">
-                <i class="fas fa-envelope"></i>
-                <span class="link-label">Email</span>
-            </a>
-            <a href="https://github.com/Ono-Katsuki" class="link" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-github"></i>
-                <span class="link-label">GitHub</span>
-            </a>
-        </div> 
+<body class="min-h-screen bg-black text-cyan-400 font-mono relative overflow-hidden">
+    <canvas id="particleCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+    <div class="relative z-10 container mx-auto px-4 py-16">
+        <h1 id="glitchText" class="text-6xl font-bold text-center mb-12 glitch-text" data-text="Katsuki Ono">Katsuki Ono</h1>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="space-y-6">
+                <h2 class="text-2xl font-semibold mb-4 border-b border-cyan-400 pb-2">Connect</h2>
+                <a href="https://www.facebook.com/katsuki.hirai" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 hover:text-cyan-300 transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                    <span>Facebook</span>
+                </a>
+                <a href="https://x.com/katsuki_o_h?s=21&t=FRRvt_E9oXOXMxkHwb2yhQ" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 hover:text-cyan-300 transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                    <span>Twitter</span>
+                </a>
+                <a href="https://www.linkedin.com/in/katsuki-ono-hirai-341629188?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 hover:text-cyan-300 transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="mailto:wheelono@gmail.com" class="flex items-center space-x-3 hover:text-cyan-300 transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    <span>Email</span>
+                </a>
+                <a href="https://github.com/Ono-Katsuki" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-3 hover:text-cyan-300 transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
+            <div class="space-y-6 md:col-span-2">
+                <h2 class="text-2xl font-semibold mb-4 border-b border-cyan-400 pb-2">Related Articles</h2>
+                <a href="https://www.stentre.net/column/132/" target="_blank" rel="noopener noreferrer" class="block p-4 border border-cyan-400 rounded-lg hover:bg-cyan-900 transition-colors duration-300">
+                    <div class="flex justify-between items-center">
+                        <span>Stentre Column</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </div>
+                </a>
+                <a href="https://www.waseda.jp/top/news/102970" target="_blank" rel="noopener noreferrer" class="block p-4 border border-cyan-400 rounded-lg hover:bg-cyan-900 transition-colors duration-300">
+                    <div class="flex justify-between items-center">
+                        <span>Waseda News</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </div>
+                </a>
+                <a href="https://note.com/katsuki_ono/" target="_blank" rel="noopener noreferrer" class="block p-4 border border-cyan-400 rounded-lg hover:bg-cyan-900 transition-colors duration-300">
+                    <div class="flex justify-between items-center">
+                        <span>Katsuki Ono's Note</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </div>
+                </a>
+                <a href="https://moov.ooo/article/645a1b0692174f167ab055b4" target="_blank" rel="noopener noreferrer" class="block p-4 border border-cyan-400 rounded-lg hover:bg-cyan-900 transition-colors duration-300">
+                    <div class="flex justify-between items-center">
+                        <span>Moov Article</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </div>
+                </a>
+                <a href="https://qiita.com/katsuki_ono" target="_blank" rel="noopener noreferrer" class="block p-4 border border-cyan-400 rounded-lg hover:bg-cyan-900 transition-colors duration-300">
+                    <div class="flex justify-between items-center">
+                        <span>Katsuki Ono's Qiita</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // Three.js setup
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 5000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setClearColor(0x000000);
-        document.getElementById('scene').appendChild(renderer.domElement);
+        // Glitch effect for the name
+        function glitchEffect() {
+            const glitchText = document.getElementById('glitchText');
+            const originalText = glitchText.textContent;
+            
+            setInterval(() => {
+                const glitched = originalText.split('').map(char => 
+                    Math.random() > 0.8 ? String.fromCharCode(Math.floor(Math.random() * 26) + 65) : char
+                ).join('');
+                glitchText.textContent = glitched;
+                setTimeout(() => glitchText.textContent = originalText, 100);
+            }, 3000);
+        }
 
-        camera.position.z = 1000;
+        // Particle animation
+        function initParticles() {
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
 
-        // Custom 2D text rendering for name
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = 512;
-        canvas.height = 128;
-        ctx.fillStyle = 'white';
-        ctx.font = 'bold 60px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('Katsuki Ono', canvas.width / 2, canvas.height / 2);
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
 
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const textPixels = [];
-
-        for (let y = 0; y < imageData.height; y += 2) {
-            for (let x = 0; x < imageData.width; x += 2) {
-                const i = (y * imageData.width + x) * 4;
-                if (imageData.data[i] > 0) {
-                    textPixels.push({
-                        x: (x / imageData.width - 0.5) * 2,
-                        y: (-y / imageData.height + 0.5)
-                    });
-                }
+            const particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 1,
+                    speed: Math.random() * 1 + 0.5
+                });
             }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(particle => {
+                    ctx.fillStyle = 'rgba(0, 255, 255, 0.7)';
+                    ctx.fillRect(particle.x, particle.y, particle.size, particle.size);
+                    particle.y += particle.speed;
+                    if (particle.y > canvas.height) {
+                        particle.y = 0;
+                        particle.x = Math.random() * canvas.width;
+                    }
+                });
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
         }
 
-        // Name particle system
-        const nameParticlesGeometry = new THREE.BufferGeometry();
-        const namePositions = new Float32Array(textPixels.length * 3);
-        const nameColors = new Float32Array(textPixels.length * 3);
-
-        for (let i = 0; i < textPixels.length; i++) {
-            namePositions[i * 3] = textPixels[i].x * 300;
-            namePositions[i * 3 + 1] = textPixels[i].y * 150 + 200;
-            namePositions[i * 3 + 2] = 0;
-
-            nameColors[i * 3] = 0; // Red
-            nameColors[i * 3 + 1] = 1; // Green
-            nameColors[i * 3 + 2] = 0; // Blue
-        }
-
-        nameParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(namePositions, 3));
-        nameParticlesGeometry.setAttribute('color', new THREE.BufferAttribute(nameColors, 3));
-
-        const nameParticlesMaterial = new THREE.PointsMaterial({
-            size: 4,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.8,
-            blending: THREE.AdditiveBlending
+        // Initialize effects
+        document.addEventListener('DOMContentLoaded', () => {
+            glitchEffect();
+            initParticles();
         });
-
-        const nameParticlesMesh = new THREE.Points(nameParticlesGeometry, nameParticlesMaterial);
-        scene.add(nameParticlesMesh);
-
-        // Background stars
-        const starsGeometry = new THREE.BufferGeometry();
-        const starsPositions = new Float32Array(2000 * 3);
-        for (let i = 0; i < 2000; i++) {
-            starsPositions[i * 3] = (Math.random() - 0.5) * 3000;
-            starsPositions[i * 3 + 1] = (Math.random() - 0.5) * 3000;
-            starsPositions[i * 3 + 2] = (Math.random() - 0.5) * 3000;
-        }
-        starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsPositions, 3));
-        const starsMaterial = new THREE.PointsMaterial({ size: 2, color: 0xffffff, opacity: 0.3, transparent: true });
-        const starsMesh = new THREE.Points(starsGeometry, starsMaterial);
-        scene.add(starsMesh);
-
-        // 関連記事の情報
-        const relatedArticles = [
-            { url: "https://www.stentre.net/column/132/", title: "Stentre Column" },
-            { url: "https://www.waseda.jp/top/news/102970", title: "Waseda News" },
-            { url: "https://note.com/katsuki_ono/", title: "Katsuki Ono's Note" },
-            { url: "https://moov.ooo/article/645a1b0692174f167ab055b4", title: "Moov Article" },
-            { url: "https://qiita.com/katsuki_ono", title: "Katsuki Ono's Qiita" }
-        ];
-
-        // 記事テキストの作成
-        function createArticleTexts() {
-            relatedArticles.forEach((article, index) => {
-                const element = document.createElement('a');
-                element.href = article.url;
-                element.className = 'floating-article';
-                element.textContent = article.title;
-                element.target = '_blank';
-                element.rel = 'noopener noreferrer';
-                document.body.appendChild(element);
-
-                // 固定位置を設定
-                const angle = (index / relatedArticles.length) * Math.PI * 2;
-                const radius = 350;
-                const x = Math.cos(angle) * radius;
-                const y = Math.sin(angle) * radius;
-
-                const vector = new THREE.Vector3(x, y, 0).project(camera);
-                element.style.left = (vector.x * 0.5 + 0.5) * window.innerWidth + 'px';
-                element.style.top = (-(vector.y * 0.5) + 0.5) * window.innerHeight + 'px';
-            });
-        }
-
-        createArticleTexts();
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            // 背景の星を回転
-            starsMesh.rotation.x += 0.0005;
-            starsMesh.rotation.y += 0.0005;
-
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        // ウィンドウリサイズ時の処理
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-
-            // 記事テキストの位置を再計算
-            const articles = document.querySelectorAll('.floating-article');
-            articles.forEach((element, index) => {
-                const angle = (index / relatedArticles.length) * Math.PI * 2;
-                const radius = 350;
-                const x = Math.cos(angle) * radius;
-                const y = Math.sin(angle) * radius;
-
-                const vector = new THREE.Vector3(x, y, 0).project(camera);
-                element.style.left = (vector.x * 0.5 + 0.5) * window.innerWidth + 'px';
-                element.style.top = (-(vector.y * 0.5) + 0.5) * window.innerHeight + 'px';
-            });
-        }
-
-        window.addEventListener('resize', onWindowResize);
     </script>
 </body>
 </html>
