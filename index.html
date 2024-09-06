@@ -67,6 +67,25 @@
             margin-right: 10px;
             font-size: 20px;
         }
+        .floating-article {
+            position: absolute;
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            border-radius: 5px;
+            padding: 10px;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            text-decoration: none;
+            max-width: 200px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+        .floating-article:hover {
+            background-color: rgba(0, 255, 0, 0.3);
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -232,6 +251,55 @@
             particlesGeometry.attributes.color.needsUpdate = true;
         }
 
+        // 関連記事の情報
+        const relatedArticles = [
+            { url: "https://www.stentre.net/column/132/", title: "Stentre Column" },
+            { url: "https://www.waseda.jp/top/news/102970", title: "Waseda News" },
+            { url: "https://note.com/katsuki_ono/", title: "Katsuki Ono's Note" },
+            { url: "https://moov.ooo/article/645a1b0692174f167ab055b4", title: "Moov Article" },
+            { url: "https://qiita.com/katsuki_ono", title: "Katsuki Ono's Qiita" }
+        ];
+
+        // 関連記事の浮遊物を作成
+        function createFloatingArticles() {
+            const updateFunctions = relatedArticles.map((article, index) => {
+                const element = document.createElement('a');
+                element.href = article.url;
+                element.className = 'floating-article';
+                element.textContent = article.title;
+                element.target = '_blank';
+                element.rel = 'noopener noreferrer';
+                element.style.display = 'none';
+                document.body.appendChild(element);
+
+                // Three.jsのパーティクルに関連付ける
+                const particleIndex = Math.floor(Math.random() * particlesCount);
+                const position = new THREE.Vector3(
+                    particlesGeometry.attributes.position.array[particleIndex * 3],
+                    particlesGeometry.attributes.position.array[particleIndex * 3 + 1],
+                    particlesGeometry.attributes.position.array[particleIndex * 3 + 2]
+                );
+
+                // アニメーションループ内で位置を更新
+                return function updatePosition() {
+                    position.x = particlesGeometry.attributes.position.array[particleIndex * 3];
+                    position.y = particlesGeometry.attributes.position.array[particleIndex * 3 + 1];
+                    position.z = particlesGeometry.attributes.position.array[particleIndex * 3 + 2];
+
+                    const vector = position.project(camera);
+                    element.style.left = (vector.x * 0.5 + 0.5) * window.innerWidth + 'px';
+                    element.style.top = (-(vector.y * 0.5) + 0.5) * window.innerHeight + 'px';
+                    element.style.display = vector.z < 1 ? 'block' : 'none';
+                };
+            });
+
+            return function updateAllPositions() {
+                updateFunctions.forEach(updateFunction => updateFunction());
+            };
+        }
+
+        const updateFloatingArticles = createFloatingArticles();
+
         function animate() {
             requestAnimationFrame(animate);
             time += 0.04;
@@ -282,6 +350,9 @@
             starsMesh.rotation.x += 0.002;
             starsMesh.rotation.y += 0.002;
 
+            // 関連記事の位置を更新
+            updateFloatingArticles();
+
             renderer.render(scene, camera);
         }
 
@@ -298,11 +369,15 @@
 
         document.addEventListener('click', () => {
             const links = document.querySelector('.links');
+            const floatingArticles = document.querySelectorAll('.floating-article');
             if (isTextMode) {
                 links.style.marginTop = '150px';
+                floatingArticles.forEach(article => article.style.display = 'none');
             } else {
                 links.style.marginTop = '0';
+                floatingArticles.forEach(article => article.style.display = 'block');
             }
+            isTextMode = !isTextMode;
         });
     </script>
 </body>
