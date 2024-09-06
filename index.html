@@ -69,38 +69,27 @@
             position: absolute;
             background-color: rgba(0, 255, 0, 0.2);
             border: 2px solid rgba(0, 255, 0, 0.5);
-            border-radius: 10px;
-            padding: 15px;
+            border-radius: 15px;
+            padding: 20px;
             color: #0f0;
             font-family: 'Courier New', monospace;
-            font-size: 16px;
+            font-size: 18px;
             text-decoration: none;
-            max-width: 250px;
+            max-width: 300px;
             transition: all 0.3s ease;
             cursor: pointer;
             pointer-events: auto;
-            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
         }
         .floating-article:hover {
             background-color: rgba(0, 255, 0, 0.4);
             transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
-        }
-        #name {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 36px;
-            font-weight: bold;
-            color: #0f0;
-            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.5);
         }
     </style>
 </head>
 <body>
     <div id="scene"></div>
-    <div id="name">Katsuki Ono</div>
     <div class="container">
         <div class="links">
             <a href="https://www.facebook.com/katsuki.hirai" class="link" target="_blank" rel="noopener noreferrer">
@@ -137,6 +126,61 @@
         document.getElementById('scene').appendChild(renderer.domElement);
 
         camera.position.z = 1000;
+
+        // Custom 2D text rendering for name
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 512;
+        canvas.height = 128;
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 60px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Katsuki Ono', canvas.width / 2, canvas.height / 2);
+
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const textPixels = [];
+
+        for (let y = 0; y < imageData.height; y += 2) {
+            for (let x = 0; x < imageData.width; x += 2) {
+                const i = (y * imageData.width + x) * 4;
+                if (imageData.data[i] > 0) {
+                    textPixels.push({
+                        x: (x / imageData.width - 0.5) * 2,
+                        y: (-y / imageData.height + 0.5)
+                    });
+                }
+            }
+        }
+
+        // Name particle system
+        const nameParticlesGeometry = new THREE.BufferGeometry();
+        const namePositions = new Float32Array(textPixels.length * 3);
+        const nameColors = new Float32Array(textPixels.length * 3);
+
+        for (let i = 0; i < textPixels.length; i++) {
+            namePositions[i * 3] = textPixels[i].x * 300;
+            namePositions[i * 3 + 1] = textPixels[i].y * 150 + 200;
+            namePositions[i * 3 + 2] = 0;
+
+            nameColors[i * 3] = 0; // Red
+            nameColors[i * 3 + 1] = 1; // Green
+            nameColors[i * 3 + 2] = 0; // Blue
+        }
+
+        nameParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(namePositions, 3));
+        nameParticlesGeometry.setAttribute('color', new THREE.BufferAttribute(nameColors, 3));
+
+        const nameParticlesMaterial = new THREE.PointsMaterial({
+            size: 4,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending
+        });
+
+        const nameParticlesMesh = new THREE.Points(nameParticlesGeometry, nameParticlesMaterial);
+        scene.add(nameParticlesMesh);
 
         // Background stars
         const starsGeometry = new THREE.BufferGeometry();
@@ -181,7 +225,7 @@
         articleParticlesGeometry.setAttribute('color', new THREE.BufferAttribute(articleColors, 3));
 
         const articleParticlesMaterial = new THREE.PointsMaterial({
-            size: 20,
+            size: 30,
             vertexColors: true,
             transparent: true,
             opacity: 0.8,
@@ -228,16 +272,22 @@
             requestAnimationFrame(animate);
             time += 0.01;
 
+            // 名前パーティクルのアニメーション
+            for (let i = 0; i < textPixels.length; i++) {
+                const i3 = i * 3;
+                namePositions[i3 + 1] += Math.sin(time + i * 0.1) * 0.3;
+            }
+            nameParticlesGeometry.attributes.position.needsUpdate = true;
+
             // 記事パーティクルのアニメーション
             for (let i = 0; i < relatedArticles.length; i++) {
                 const i3 = i * 3;
-                const angle = (i / relatedArticles.length) * Math.PI * 2 + time;
+                const angle = (i / relatedArticles.length) * Math.PI * 2 + time * 0.2;
                 const radius = 400 + Math.sin(time * 2 + i) * 50;
                 articlePositions[i3] = Math.cos(angle) * radius;
                 articlePositions[i3 + 1] = Math.sin(angle) * radius;
                 articlePositions[i3 + 2] = Math.sin(time * 3 + i) * 50;
             }
-
             articleParticlesGeometry.attributes.position.needsUpdate = true;
 
             // 背景の星を回転
