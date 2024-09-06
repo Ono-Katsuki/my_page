@@ -204,40 +204,9 @@
             { url: "https://qiita.com/katsuki_ono", title: "Katsuki Ono's Qiita" }
         ];
 
-        // 記事パーティクルシステム
-        const articleParticlesGeometry = new THREE.BufferGeometry();
-        const articlePositions = new Float32Array(relatedArticles.length * 3);
-        const articleColors = new Float32Array(relatedArticles.length * 3);
-
-        for (let i = 0; i < relatedArticles.length; i++) {
-            const angle = (i / relatedArticles.length) * Math.PI * 2;
-            const radius = 400;
-            articlePositions[i * 3] = Math.cos(angle) * radius;
-            articlePositions[i * 3 + 1] = Math.sin(angle) * radius;
-            articlePositions[i * 3 + 2] = 0;
-
-            articleColors[i * 3] = 0; // Red
-            articleColors[i * 3 + 1] = 1; // Green
-            articleColors[i * 3 + 2] = 0; // Blue
-        }
-
-        articleParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(articlePositions, 3));
-        articleParticlesGeometry.setAttribute('color', new THREE.BufferAttribute(articleColors, 3));
-
-        const articleParticlesMaterial = new THREE.PointsMaterial({
-            size: 30,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.8,
-            blending: THREE.AdditiveBlending
-        });
-
-        const articleParticlesMesh = new THREE.Points(articleParticlesGeometry, articleParticlesMaterial);
-        scene.add(articleParticlesMesh);
-
-        // 関連記事の浮遊物を作成
-        function createFloatingArticles() {
-            const updateFunctions = relatedArticles.map((article, index) => {
+        // 記事テキストの作成
+        function createArticleTexts() {
+            relatedArticles.forEach((article, index) => {
                 const element = document.createElement('a');
                 element.href = article.url;
                 element.className = 'floating-article';
@@ -246,56 +215,26 @@
                 element.rel = 'noopener noreferrer';
                 document.body.appendChild(element);
 
-                return function updatePosition() {
-                    const position = new THREE.Vector3(
-                        articlePositions[index * 3],
-                        articlePositions[index * 3 + 1],
-                        articlePositions[index * 3 + 2]
-                    );
+                // 固定位置を設定
+                const angle = (index / relatedArticles.length) * Math.PI * 2;
+                const radius = 400;
+                const x = Math.cos(angle) * radius;
+                const y = Math.sin(angle) * radius;
 
-                    const vector = position.project(camera);
-                    element.style.left = (vector.x * 0.5 + 0.5) * window.innerWidth + 'px';
-                    element.style.top = (-(vector.y * 0.5) + 0.5) * window.innerHeight + 'px';
-                };
+                const vector = new THREE.Vector3(x, y, 0).project(camera);
+                element.style.left = (vector.x * 0.5 + 0.5) * window.innerWidth + 'px';
+                element.style.top = (-(vector.y * 0.5) + 0.5) * window.innerHeight + 'px';
             });
-
-            return function updateAllPositions() {
-                updateFunctions.forEach(updateFunction => updateFunction());
-            };
         }
 
-        const updateFloatingArticles = createFloatingArticles();
-
-        let time = 0;
+        createArticleTexts();
 
         function animate() {
             requestAnimationFrame(animate);
-            time += 0.01;
-
-            // 名前パーティクルのアニメーション
-            for (let i = 0; i < textPixels.length; i++) {
-                const i3 = i * 3;
-                namePositions[i3 + 1] += Math.sin(time + i * 0.1) * 0.3;
-            }
-            nameParticlesGeometry.attributes.position.needsUpdate = true;
-
-            // 記事パーティクルのアニメーション
-            for (let i = 0; i < relatedArticles.length; i++) {
-                const i3 = i * 3;
-                const angle = (i / relatedArticles.length) * Math.PI * 2 + time * 0.2;
-                const radius = 400 + Math.sin(time * 2 + i) * 50;
-                articlePositions[i3] = Math.cos(angle) * radius;
-                articlePositions[i3 + 1] = Math.sin(angle) * radius;
-                articlePositions[i3 + 2] = Math.sin(time * 3 + i) * 50;
-            }
-            articleParticlesGeometry.attributes.position.needsUpdate = true;
 
             // 背景の星を回転
             starsMesh.rotation.x += 0.0005;
             starsMesh.rotation.y += 0.0005;
-
-            // 関連記事の位置を更新
-            updateFloatingArticles();
 
             renderer.render(scene, camera);
         }
@@ -307,6 +246,19 @@
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // 記事テキストの位置を再計算
+            const articles = document.querySelectorAll('.floating-article');
+            articles.forEach((element, index) => {
+                const angle = (index / relatedArticles.length) * Math.PI * 2;
+                const radius = 400;
+                const x = Math.cos(angle) * radius;
+                const y = Math.sin(angle) * radius;
+
+                const vector = new THREE.Vector3(x, y, 0).project(camera);
+                element.style.left = (vector.x * 0.5 + 0.5) * window.innerWidth + 'px';
+                element.style.top = (-(vector.y * 0.5) + 0.5) * window.innerHeight + 'px';
+            });
         }
 
         window.addEventListener('resize', onWindowResize);
