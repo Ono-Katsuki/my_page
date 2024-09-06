@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -80,6 +80,7 @@
             cursor: pointer;
             pointer-events: auto;
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            z-index: 10;
         }
         .floating-article:hover {
             background-color: rgba(0, 255, 0, 0.4);
@@ -217,7 +218,7 @@
 
                 // 固定位置を設定
                 const angle = (index / relatedArticles.length) * Math.PI * 2;
-                const radius = 400;
+                const radius = 350;
                 const x = Math.cos(angle) * radius;
                 const y = Math.sin(angle) * radius;
 
@@ -251,7 +252,7 @@
             const articles = document.querySelectorAll('.floating-article');
             articles.forEach((element, index) => {
                 const angle = (index / relatedArticles.length) * Math.PI * 2;
-                const radius = 400;
+                const radius = 350;
                 const x = Math.cos(angle) * radius;
                 const y = Math.sin(angle) * radius;
 
