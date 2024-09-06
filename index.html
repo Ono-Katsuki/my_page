@@ -86,7 +86,20 @@
                 </a>
             </div>
             <div class="space-y-6 md:col-span-2">
-                <h2 class="text-2xl font-semibold mb-4 border-b border-cyan-400 pb-2">Related Articles</h2>
+                <h2 class="text-2xl font-semibold mb-4 border-b border-cyan-400 pb-2">Personal Blogs</h2>
+                <a href="https://note.com/katsuki_ono/" target="_blank" rel="noopener noreferrer" class="block p-4 border border-cyan-400 rounded-lg hover:bg-cyan-900 transition-colors duration-300">
+                    <div class="flex justify-between items-center">
+                        <span>Katsuki Ono's Note</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </div>
+                </a>
+                <a href="https://qiita.com/katsuki_ono" target="_blank" rel="noopener noreferrer" class="block p-4 border border-cyan-400 rounded-lg hover:bg-cyan-900 transition-colors duration-300">
+                    <div class="flex justify-between items-center">
+                        <span>Katsuki Ono's Qiita</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </div>
+                </a>
+                <h2 class="text-2xl font-semibold mb-4 border-b border-cyan-400 pb-2 mt-8">Related Articles</h2>
                 <a href="https://www.stentre.net/column/132/" target="_blank" rel="noopener noreferrer" class="block p-4 border border-cyan-400 rounded-lg hover:bg-cyan-900 transition-colors duration-300">
                     <div class="flex justify-between items-center">
                         <span>Stentre Column</span>
@@ -99,21 +112,9 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                     </div>
                 </a>
-                <a href="https://note.com/katsuki_ono/" target="_blank" rel="noopener noreferrer" class="block p-4 border border-cyan-400 rounded-lg hover:bg-cyan-900 transition-colors duration-300">
-                    <div class="flex justify-between items-center">
-                        <span>Katsuki Ono's Note</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                    </div>
-                </a>
                 <a href="https://moov.ooo/article/645a1b0692174f167ab055b4" target="_blank" rel="noopener noreferrer" class="block p-4 border border-cyan-400 rounded-lg hover:bg-cyan-900 transition-colors duration-300">
                     <div class="flex justify-between items-center">
                         <span>Moov Article</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                    </div>
-                </a>
-                <a href="https://qiita.com/katsuki_ono" target="_blank" rel="noopener noreferrer" class="block p-4 border border-cyan-400 rounded-lg hover:bg-cyan-900 transition-colors duration-300">
-                    <div class="flex justify-between items-center">
-                        <span>Katsuki Ono's Qiita</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                     </div>
                 </a>
@@ -125,10 +126,11 @@
         // Glitch effect for the name
         function glitchEffect() {
             const glitchText = document.getElementById('glitchText');
-            const originalText = glitchText.textContent;
+            const originalText = glit
+chText.textContent;
             
             setInterval(() => {
-                const glitched = originalText.split('').map(char => 
+                const glitched = originalText.split('').map(char =>
                     Math.random() > 0.8 ? String.fromCharCode(Math.floor(Math.random() * 26) + 65) : char
                 ).join('');
                 glitchText.textContent = glitched;
