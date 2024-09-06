@@ -33,13 +33,11 @@
             justify-content: center;
             align-items: center;
             z-index: 3;
-            transition: all 0.5s ease;
         }
         .links {
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: all 0.5s ease;
             margin-top: 150px;
         }
         .link {
@@ -69,27 +67,40 @@
         }
         .floating-article {
             position: absolute;
-            background-color: rgba(0, 255, 0, 0.1);
-            border: 1px solid rgba(0, 255, 0, 0.3);
-            border-radius: 5px;
-            padding: 10px;
+            background-color: rgba(0, 255, 0, 0.2);
+            border: 2px solid rgba(0, 255, 0, 0.5);
+            border-radius: 10px;
+            padding: 15px;
             color: #0f0;
             font-family: 'Courier New', monospace;
-            font-size: 14px;
+            font-size: 16px;
             text-decoration: none;
-            max-width: 200px;
+            max-width: 250px;
             transition: all 0.3s ease;
             cursor: pointer;
             pointer-events: auto;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
         }
         .floating-article:hover {
-            background-color: rgba(0, 255, 0, 0.3);
-            transform: scale(1.05);
+            background-color: rgba(0, 255, 0, 0.4);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+        #name {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 36px;
+            font-weight: bold;
+            color: #0f0;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
         }
     </style>
 </head>
 <body>
     <div id="scene"></div>
+    <div id="name">Katsuki Ono</div>
     <div class="container">
         <div class="links">
             <a href="https://www.facebook.com/katsuki.hirai" class="link" target="_blank" rel="noopener noreferrer">
@@ -126,99 +137,6 @@
         document.getElementById('scene').appendChild(renderer.domElement);
 
         camera.position.z = 1000;
-        camera.position.y = -50;
-
-        // Custom 2D text rendering
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = 512;
-        canvas.height = 128;
-        ctx.fillStyle = 'white';
-        ctx.font = 'bold 60px Arial';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('Katsuki Ono', canvas.width / 2, canvas.height / 3);
-        ctx.font = '18px Arial';
-        ctx.fillText('Feel free to contact me anytime.', canvas.width / 2, canvas.height / 3 + 50);
-
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const textPixels = [];
-
-        for (let y = 0; y < imageData.height; y += 2) {
-            for (let x = 0; x < imageData.width; x += 2) {
-                const i = (y * imageData.width + x) * 4;
-                if (imageData.data[i] > 0) {
-                    textPixels.push({
-                        x: (x / imageData.width - 0.5) * 2,
-                        y: (-y / imageData.height + 0.5)
-                    });
-                }
-            }
-        }
-
-        // Particle system
-        const particlesCount = textPixels.length;
-        const particlesGeometry = new THREE.BufferGeometry();
-        const positions = new Float32Array(particlesCount * 3);
-        const colors = new Float32Array(particlesCount * 3);
-        const colorOffsets = new Float32Array(particlesCount);
-        const sparkleOffsets = new Float32Array(particlesCount);
-
-        for (let i = 0; i < particlesCount; i++) {
-            const angle = Math.random() * Math.PI * 2;
-            const radius = Math.random() * 600 + 200;
-            positions[i * 3] = Math.cos(angle) * radius;
-            positions[i * 3 + 1] = Math.sin(angle) * radius;
-            positions[i * 3 + 2] = (Math.random() - 0.5) * 400;
-
-            colorOffsets[i] = Math.random() * Math.PI * 2;
-            sparkleOffsets[i] = Math.random() * Math.PI * 2;
-        }
-
-        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 4,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.8,
-            blending: THREE.AdditiveBlending
-        });
-
-        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-        scene.add(particlesMesh);
-
-        // Matrix-style particles
-        const matrixParticlesCount = 500;
-        const matrixGeometry = new THREE.BufferGeometry();
-        const matrixPositions = new Float32Array(matrixParticlesCount * 3);
-        const matrixColors = new Float32Array(matrixParticlesCount * 3);
-
-        for (let i = 0; i < matrixParticlesCount; i++) {
-            matrixPositions[i * 3] = (Math.random() - 0.5) * window.innerWidth;
-            matrixPositions[i * 3 + 1] = Math.random() * window.innerHeight;
-            matrixPositions[i * 3 + 2] = (Math.random() - 0.5) * 500;
-
-            const brightness = Math.random() * 0.5 + 0.5;
-            matrixColors[i * 3] = 0; // Red
-            matrixColors[i * 3 + 1] = brightness; // Green
-            matrixColors[i * 3 + 2] = 0; // Blue
-        }
-
-        matrixGeometry.setAttribute('position', new THREE.BufferAttribute(matrixPositions, 3));
-        matrixGeometry.setAttribute('color', new THREE.BufferAttribute(matrixColors, 3));
-
-        const matrixMaterial = new THREE.PointsMaterial({
-            size: 16,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.8,
-            blending: THREE.AdditiveBlending
-        });
-
-        const matrixMesh = new THREE.Points(matrixGeometry, matrixMaterial);
-        scene.add(matrixMesh);
 
         // Background stars
         const starsGeometry = new THREE.BufferGeometry();
@@ -233,24 +151,6 @@
         const starsMesh = new THREE.Points(starsGeometry, starsMaterial);
         scene.add(starsMesh);
 
-        // Animation
-        let isTextMode = true;
-        let time = 0;
-
-        function updateParticleColors() {
-            const colors = particlesGeometry.attributes.color.array;
-            for (let i = 0; i < particlesCount; i++) {
-                const i3 = i * 3;
-                // Light blue-green color
-                const blueGreen = 0.7 + Math.sin(time + colorOffsets[i]) * 0.3;
-                const sparkle = Math.pow((Math.sin(time * 20 + sparkleOffsets[i]) + 1) * 0.5, 3);
-                colors[i3] = 0.3 + sparkle * 0.2; // Red (low for blue-green)
-                colors[i3 + 1] = 0.7 + blueGreen * 0.3 + sparkle * 0.2; // Green
-                colors[i3 + 2] = 0.7 + blueGreen * 0.3 + sparkle * 0.2; // Blue
-            }
-            particlesGeometry.attributes.color.needsUpdate = true;
-        }
-
         // 関連記事の情報
         const relatedArticles = [
             { url: "https://www.stentre.net/column/132/", title: "Stentre Column" },
@@ -259,6 +159,37 @@
             { url: "https://moov.ooo/article/645a1b0692174f167ab055b4", title: "Moov Article" },
             { url: "https://qiita.com/katsuki_ono", title: "Katsuki Ono's Qiita" }
         ];
+
+        // 記事パーティクルシステム
+        const articleParticlesGeometry = new THREE.BufferGeometry();
+        const articlePositions = new Float32Array(relatedArticles.length * 3);
+        const articleColors = new Float32Array(relatedArticles.length * 3);
+
+        for (let i = 0; i < relatedArticles.length; i++) {
+            const angle = (i / relatedArticles.length) * Math.PI * 2;
+            const radius = 400;
+            articlePositions[i * 3] = Math.cos(angle) * radius;
+            articlePositions[i * 3 + 1] = Math.sin(angle) * radius;
+            articlePositions[i * 3 + 2] = 0;
+
+            articleColors[i * 3] = 0; // Red
+            articleColors[i * 3 + 1] = 1; // Green
+            articleColors[i * 3 + 2] = 0; // Blue
+        }
+
+        articleParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(articlePositions, 3));
+        articleParticlesGeometry.setAttribute('color', new THREE.BufferAttribute(articleColors, 3));
+
+        const articleParticlesMaterial = new THREE.PointsMaterial({
+            size: 20,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending
+        });
+
+        const articleParticlesMesh = new THREE.Points(articleParticlesGeometry, articleParticlesMaterial);
+        scene.add(articleParticlesMesh);
 
         // 関連記事の浮遊物を作成
         function createFloatingArticles() {
@@ -269,27 +200,18 @@
                 element.textContent = article.title;
                 element.target = '_blank';
                 element.rel = 'noopener noreferrer';
-                element.style.display = 'none';
                 document.body.appendChild(element);
 
-                // Three.jsのパーティクルに関連付ける
-                const particleIndex = Math.floor(Math.random() * particlesCount);
-                const position = new THREE.Vector3(
-                    particlesGeometry.attributes.position.array[particleIndex * 3],
-                    particlesGeometry.attributes.position.array[particleIndex * 3 + 1],
-                    particlesGeometry.attributes.position.array[particleIndex * 3 + 2]
-                );
-
-                // アニメーションループ内で位置を更新
                 return function updatePosition() {
-                    position.x = particlesGeometry.attributes.position.array[particleIndex * 3];
-                    position.y = particlesGeometry.attributes.position.array[particleIndex * 3 + 1];
-                    position.z = particlesGeometry.attributes.position.array[particleIndex * 3 + 2];
+                    const position = new THREE.Vector3(
+                        articlePositions[index * 3],
+                        articlePositions[index * 3 + 1],
+                        articlePositions[index * 3 + 2]
+                    );
 
                     const vector = position.project(camera);
                     element.style.left = (vector.x * 0.5 + 0.5) * window.innerWidth + 'px';
                     element.style.top = (-(vector.y * 0.5) + 0.5) * window.innerHeight + 'px';
-                    element.style.display = vector.z < 1 ? 'block' : 'none';
                 };
             });
 
@@ -300,55 +222,27 @@
 
         const updateFloatingArticles = createFloatingArticles();
 
+        let time = 0;
+
         function animate() {
             requestAnimationFrame(animate);
-            time += 0.04;
+            time += 0.01;
 
-            updateParticleColors();
-
-            const positions = particlesGeometry.attributes.position.array;
-            const matrixPositions = matrixGeometry.attributes.position.array;
-
-            for (let i = 0; i < particlesCount; i++) {
+            // 記事パーティクルのアニメーション
+            for (let i = 0; i < relatedArticles.length; i++) {
                 const i3 = i * 3;
-
-                if (isTextMode) {
-                    const targetX = textPixels[i].x * 300;
-                    const targetY = textPixels[i].y * 150 + 100;
-                    const targetZ = 0;
-
-                    positions[i3] += (targetX - positions[i3]) * 0.2;
-                    positions[i3 + 1] += (targetY - positions[i3 + 1]) * 0.2;
-                    positions[i3 + 2] += (targetZ - positions[i3 + 2]) * 0.2;
-                } else {
-                    const angle = Math.atan2(positions[i3 + 1], positions[i3]);
-                    const radius = Math.sqrt(positions[i3] ** 2 + positions[i3 + 1] ** 2);
-                    const newAngle = angle + 0.01 / (radius / 400);
-
-                    positions[i3] = Math.cos(newAngle) * radius;
-                    positions[i3 + 1] = Math.sin(newAngle) * radius;
-                    positions[i3 + 2] = Math.sin(time * 4 * radius * 0.005) * 100;
-                }
+                const angle = (i / relatedArticles.length) * Math.PI * 2 + time;
+                const radius = 400 + Math.sin(time * 2 + i) * 50;
+                articlePositions[i3] = Math.cos(angle) * radius;
+                articlePositions[i3 + 1] = Math.sin(angle) * radius;
+                articlePositions[i3 + 2] = Math.sin(time * 3 + i) * 50;
             }
 
-            // Animate matrix particles
-            for (let i = 0; i < matrixParticlesCount; i++) {
-                const i3 = i * 3;
-                matrixPositions[i3 + 1] -= 2; // Move downwards
+            articleParticlesGeometry.attributes.position.needsUpdate = true;
 
-                // Reset particle to top when it goes off-screen
-                if (matrixPositions[i3 + 1] < -window.innerHeight / 2) {
-                    matrixPositions[i3 + 1] = window.innerHeight / 2;
-                    matrixPositions[i3] = (Math.random() - 0.5) * window.innerWidth;
-                }
-            }
-
-            particlesGeometry.attributes.position.needsUpdate = true;
-            matrixGeometry.attributes.position.needsUpdate = true;
-
-            // Rotate background stars
-            starsMesh.rotation.x += 0.002;
-            starsMesh.rotation.y += 0.002;
+            // 背景の星を回転
+            starsMesh.rotation.x += 0.0005;
+            starsMesh.rotation.y += 0.0005;
 
             // 関連記事の位置を更新
             updateFloatingArticles();
@@ -358,7 +252,7 @@
 
         animate();
 
-        // Event listeners
+        // ウィンドウリサイズ時の処理
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -366,19 +260,6 @@
         }
 
         window.addEventListener('resize', onWindowResize);
-
-        document.addEventListener('click', () => {
-            const links = document.querySelector('.links');
-            const floatingArticles = document.querySelectorAll('.floating-article');
-            if (isTextMode) {
-                links.style.marginTop = '150px';
-                floatingArticles.forEach(article => article.style.display = 'none');
-            } else {
-                links.style.marginTop = '0';
-                floatingArticles.forEach(article => article.style.display = 'block');
-            }
-            isTextMode = !isTextMode;
-        });
     </script>
 </body>
 </html>
