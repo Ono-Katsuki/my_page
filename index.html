@@ -205,6 +205,41 @@
     .lang-switch a:hover {
       background-color: rgba(74, 222, 128, 0.1);
     }
+    .bio-toggle {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .bio-toggle button {
+      background-color: transparent;
+      border: 1px solid #4ade80;
+      color: #4ade80;
+      padding: 0.5rem 1.5rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background-color 0.3s;
+    }
+    .bio-toggle button:hover {
+      background-color: rgba(74, 222, 128, 0.1);
+    }
+    .bio-detail {
+      display: none;
+      max-width: 800px;
+      margin: 0 auto 2rem auto;
+      padding: 1.5rem;
+      border: 1px solid #4ade80;
+      border-radius: 0.5rem;
+      text-align: left;
+      line-height: 1.8;
+      color: #86efac;
+      font-size: 0.9rem;
+    }
+    .bio-detail p {
+      margin-bottom: 1rem;
+    }
+    .bio-detail p:last-child {
+      margin-bottom: 0;
+    }
   </style>
 </head>
 <body>
@@ -216,6 +251,17 @@
     <h1>Katsuki Ono</h1>
     <p class="subtitle">Feel free to contact me</p>
     <p class="intro">Entrepreneur & LLM Developer | CEO of EqualFrontiers | LLM Team Leader at Matsuo Lab, UTokyo | Disability Advocate with a progressive neurological condition similar to ALS | Waseda University (BA, MA)</p>
+
+    <div class="bio-toggle">
+      <button onclick="toggleBio()">Read More</button>
+    </div>
+    <div class="bio-detail" id="bioDetail">
+      <p>I was born with a progressive neurological condition similar to ALS. I cannot operate an electric wheelchair, write, breathe without assistance, or speak. I am bedridden and communicate solely through an iPad, controlled by a switch I press with my head.</p>
+      <p>Despite these limitations, I have continued to push forward. I graduated from Waseda University with both a Bachelor's and Master's degree. As an entrepreneur, I founded EqualFrontiers, a company focused on disability employment, working to create opportunities for people with disabilities to participate in the workforce.</p>
+      <p>In the field of AI, I lead a 10-member LLM development team at the University of Tokyo's Matsuo Laboratory. In the Matsuo Lab LLM Competition 2025, I led Team oNo.1 (30-70 members) to 1st place in the qualifying round and 3rd place in the finals, competing against 358 participants nationwide. I have also published 23 AI models on Hugging Face.</p>
+      <p>I believe that the challenges faced by people with disabilities—challenges that traditional systems have failed to solve—can be addressed through entrepreneurship and innovation. My goal is to build a society where diversity is truly embraced, and where everyone, regardless of ability, can contribute and thrive.</p>
+      <p>Through my work, I hope to serve as one example of what is possible—even from a hospital bed.</p>
+    </div>
 
     <!-- Connect & Articles in a grid -->
     <div class="grid">
@@ -770,6 +816,21 @@
         toggleExtraBtn.textContent = 'Open More Articles';
       }
     });
+
+    // ===============================
+    // Bio toggle
+    // ===============================
+    function toggleBio() {
+      const bioDetail = document.getElementById('bioDetail');
+      const bioBtn = document.querySelector('.bio-toggle button');
+      if (bioDetail.style.display === 'none' || bioDetail.style.display === '') {
+        bioDetail.style.display = 'block';
+        bioBtn.textContent = 'Close';
+      } else {
+        bioDetail.style.display = 'none';
+        bioBtn.textContent = 'Read More';
+      }
+    }
   </script>
 </body>
 </html>
