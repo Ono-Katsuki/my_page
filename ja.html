@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Katsuki Ono - Professional Timeline</title>
+  <title>小野克樹 - プロフィール</title>
 
   <!-- SEO基本 -->
-  <meta name="description" content="Katsuki Ono - Entrepreneur, LLM Developer, CEO of EqualFrontiers, LLM Team Leader at Matsuo Lab (UTokyo). 1st Place (Qualifying) / 3rd Place (Final) at Matsuo Lab LLM Competition 2025. Disability Advocate with ALS-like condition.">
-  <meta name="keywords" content="Katsuki Ono, 小野克樹, EqualFrontiers, LLM, Large Language Model, Matsuo Lab, 松尾研, UTokyo, 東京大学, Disability Advocacy, Entrepreneur, Waseda University, 早稲田大学, Youth Co:Lab, AI, Machine Learning, Hugging Face, NLP">
-  <meta name="author" content="Katsuki Ono">
+  <meta name="description" content="小野克樹 - 起業家、LLM開発者、EqualFrontiers代表、東京大学松尾研究室LLMチームリーダー。松尾研LLMコンペ2025 予選1位/決勝3位。ALSに類似した進行性神経疾患を持つ障害者アドボケイト。">
+  <meta name="keywords" content="小野克樹, Katsuki Ono, EqualFrontiers, LLM, 大規模言語モデル, 松尾研, 松尾研究室, 東京大学, 障害者, 起業家, 早稲田大学, Youth Co:Lab, AI, 機械学習, Hugging Face, NLP">
+  <meta name="author" content="小野克樹">
 
   <!-- OGP (SNSシェア用) -->
-  <meta property="og:title" content="Katsuki Ono - Entrepreneur & LLM Developer">
-  <meta property="og:description" content="CEO of EqualFrontiers | LLM Team Leader at Matsuo Lab, UTokyo | 1st/3rd Place at Matsuo Lab LLM Competition 2025 | Disability Advocate">
+  <meta property="og:title" content="小野克樹 - 起業家 & LLM開発者">
+  <meta property="og:description" content="EqualFrontiers代表 | 東大松尾研LLMチームリーダー | 松尾研LLMコンペ2025 予選1位/決勝3位 | 障害者アドボケイト">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ono-katsuki.github.io/my_page/">
-  <meta property="og:site_name" content="Katsuki Ono">
-  <meta property="og:locale" content="en_US">
-  <meta property="og:locale:alternate" content="ja_JP">
+  <meta property="og:url" content="https://ono-katsuki.github.io/my_page/ja.html">
+  <meta property="og:site_name" content="小野克樹">
+  <meta property="og:locale" content="ja_JP">
+  <meta property="og:locale:alternate" content="en_US">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Katsuki Ono - Entrepreneur & LLM Developer">
-  <meta name="twitter:description" content="CEO of EqualFrontiers | LLM Team Leader at Matsuo Lab, UTokyo | Disability Advocate">
+  <meta name="twitter:title" content="小野克樹 - 起業家 & LLM開発者">
+  <meta name="twitter:description" content="EqualFrontiers代表 | 東大松尾研LLMチームリーダー | 障害者アドボケイト">
 
   <!-- 追加SEO -->
-  <link rel="canonical" href="https://ono-katsuki.github.io/my_page/">
+  <link rel="canonical" href="https://ono-katsuki.github.io/my_page/ja.html">
   <link rel="alternate" hreflang="en" href="https://ono-katsuki.github.io/my_page/">
   <link rel="alternate" hreflang="ja" href="https://ono-katsuki.github.io/my_page/ja.html">
   <meta name="robots" content="index, follow">
@@ -44,6 +44,21 @@
       padding: 4rem 1rem;
       position: relative;
       z-index: 10;
+    }
+    .lang-switch {
+      text-align: right;
+      margin-bottom: 1rem;
+    }
+    .lang-switch a {
+      color: #4ade80;
+      text-decoration: none;
+      border: 1px solid #4ade80;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      transition: background-color 0.3s;
+    }
+    .lang-switch a:hover {
+      background-color: rgba(74, 222, 128, 0.1);
     }
     h1 {
       font-size: 3.75rem;
@@ -163,7 +178,6 @@
       color: #86efac;
       margin-bottom: 0.5rem;
     }
-    /* For embedded videos */
     .video-container {
       margin-top: 1rem;
       position: relative;
@@ -177,7 +191,6 @@
       left: 0;
       top: 0;
     }
-    /* Toggle for extra articles */
     #extraArticles {
       display: none;
       margin-top: 1rem;
@@ -190,60 +203,45 @@
       height: 100%;
       z-index: 1;
     }
-    .lang-switch {
-      text-align: right;
-      margin-bottom: 1rem;
-    }
-    .lang-switch a {
-      color: #4ade80;
-      text-decoration: none;
-      border: 1px solid #4ade80;
-      padding: 0.5rem 1rem;
-      border-radius: 0.25rem;
-      transition: background-color 0.3s;
-    }
-    .lang-switch a:hover {
-      background-color: rgba(74, 222, 128, 0.1);
-    }
   </style>
 </head>
 <body>
   <canvas id="particleCanvas"></canvas>
   <div class="container">
     <div class="lang-switch">
-      <a href="ja.html">日本語</a>
+      <a href="index.html">English</a>
     </div>
-    <h1>Katsuki Ono</h1>
-    <p class="subtitle">Feel free to contact me</p>
-    <p class="intro">Entrepreneur & LLM Developer | CEO of EqualFrontiers | LLM Team Leader at Matsuo Lab, UTokyo | Disability Advocate with a progressive neurological condition similar to ALS | Waseda University (BA, MA)</p>
+    <h1>小野克樹</h1>
+    <p class="subtitle">お気軽にご連絡ください</p>
+    <p class="intro">起業家 & LLM開発者 | EqualFrontiers代表 | 東京大学松尾研究室LLMチームリーダー | ALSに類似した進行性神経疾患を持つ障害者アドボケイト | 早稲田大学（学士・修士）</p>
 
     <!-- Connect & Articles in a grid -->
     <div class="grid">
       <!-- Connect -->
       <div class="connect">
-        <h2>Connect</h2>
+        <h2>連絡先</h2>
         <!-- Facebook -->
-        <a href="https://www.facebook.com/katsuki.hirai" 
+        <a href="https://www.facebook.com/katsuki.hirai"
            target="_blank" rel="noopener noreferrer">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-               viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7 
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7
                      a1 1 0 0 1 1-1h3z"></path>
           </svg>
           <span>Facebook</span>
         </a>
         <!-- Twitter -->
-        <a href="https://x.com/katsuki_o_h?s=21&t=FRRvt_E9oXOXMxkHwb2yhQ" 
+        <a href="https://x.com/katsuki_o_h?s=21&t=FRRvt_E9oXOXMxkHwb2yhQ"
            target="_blank" rel="noopener noreferrer">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-               viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 
-                     4.48 4.48 0 0 0-7.86 3v1A10.66 
-                     10.66 0 0 1 3 4s-4 9 5 13a11.64 
-                     11.64 0 0 1-7 2c9 5 20 0 
-                     20-11.5a4.5 4.5 0 0 0-.08-.83 
+            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53
+                     4.48 4.48 0 0 0-7.86 3v1A10.66
+                     10.66 0 0 1 3 4s-4 9 5 13a11.64
+                     11.64 0 0 1-7 2c9 5 20 0
+                     20-11.5a4.5 4.5 0 0 0-.08-.83
                      A7.72 7.72 0 0 0 23 3z"></path>
           </svg>
           <span>Twitter</span>
@@ -251,10 +249,10 @@
         <!-- LinkedIn -->
         <a href="https://www.linkedin.com/in/katsuki-ono-hirai-341629188"
            target="_blank" rel="noopener noreferrer">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-               viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2
                      0 0 0-2-2 2 2 0 0 0-2 2v7h-4
                      v-7a6 6 0 0 1 6-6z"></path>
             <rect x="2" y="9" width="4" height="12"></rect>
@@ -264,15 +262,15 @@
         </a>
         <!-- Personal Email -->
         <a href="mailto:wheelono@gmail.com">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-               viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+               viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12
-                     c0 1.1-.9 2-2 2H4c-1.1 0-2-.9 
+                     c0 1.1-.9 2-2 2H4c-1.1 0-2-.9
                      -2-2V6c0-1.1.9-2 2-2z"></path>
             <polyline points="22,6 12,13 2,6"></polyline>
           </svg>
-          <span>Email (Personal)</span>
+          <span>メール（個人）</span>
         </a>
         <!-- GitHub -->
         <a href="https://github.com/Ono-Katsuki"
@@ -308,15 +306,14 @@
             <line x1="9" y1="9" x2="9.01" y2="9"></line>
             <line x1="15" y1="9" x2="15.01" y2="9"></line>
           </svg>
-          <span>Hugging Face (23 Models)</span>
+          <span>Hugging Face（23モデル）</span>
         </a>
         <!-- EqualFrontiers (Home Icon) -->
-        <a href="https://equalfrontiers.com" 
+        <a href="https://equalfrontiers.com"
            target="_blank" rel="noopener noreferrer">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <!-- Home icon -->
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
           </svg>
@@ -332,36 +329,35 @@
                      -2-2V6c0-1.1.9-2 2-2z"/>
             <polyline points="22,6 12,13 2,6"/>
           </svg>
-          <span>Email (Company)</span>
+          <span>メール（会社）</span>
         </a>
       </div>
 
       <!-- Articles -->
       <div>
         <div class="articles">
-          <h2>Related Articles</h2>
-          <!-- Main articles (always visible) -->
+          <h2>関連記事</h2>
           <div id="mainArticles">
             <!-- Moov Article -->
-            <a href="https://moov.ooo/article/645a1b0692174f167ab055b4" 
+            <a href="https://moov.ooo/article/645a1b0692174f167ab055b4"
                target="_blank" rel="noopener noreferrer">
-              <span>INNO β + Severely Disabled: The Possibility of “Weird People” by Katsuki Ono</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                   viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+              <span>異能β＋重度障害者：「変な人」の可能性 by 小野克樹</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor"
                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 
-                         0 0 1-2-2V8a2 2 0 
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2
+                         0 0 1-2-2V8a2 2 0
                          0 1 2-2h6"></path>
                 <polyline points="15 3 21 3 21 9"></polyline>
                 <line x1="10" y1="14" x2="21" y2="3"></line>
               </svg>
             </a>
             <!-- Waseda News -->
-            <a href="https://www.waseda.jp/top/news/102970" 
+            <a href="https://www.waseda.jp/top/news/102970"
                target="_blank" rel="noopener noreferrer">
-              <span>Waseda News</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                   viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+              <span>早稲田大学ニュース</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor"
                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5
                          a2 2 0 0 1-2-2V8
@@ -371,14 +367,14 @@
               </svg>
             </a>
             <!-- From Margins to Mainstream -->
-            <a href="https://www.youthcolab.org/publications-3/from-margins-to-mainstream:-inclusive-youth-entrepreneurship-in-the-asia-pacific-region" 
+            <a href="https://www.youthcolab.org/publications-3/from-margins-to-mainstream:-inclusive-youth-entrepreneurship-in-the-asia-pacific-region"
                target="_blank" rel="noopener noreferrer">
-              <span>From Margins to Mainstream: Inclusive Youth Entrepreneurship in the Asia-Pacific Region</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                   viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+              <span>From Margins to Mainstream: アジア太平洋地域のインクルーシブな若者起業</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor"
                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 
-                         2 0 0 1-2-2V8a2 2 
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2
+                         2 0 0 1-2-2V8a2 2
                          0 0 1 2-2h6"></path>
                 <polyline points="15 3 21 3 21 9"></polyline>
                 <line x1="10" y1="14" x2="21" y2="3"></line>
@@ -386,23 +382,21 @@
             </a>
           </div>
 
-          <!-- Toggle for extra articles -->
-          <button id="toggleExtra" 
-                  style="width: 100%; margin-top: 1rem; text-align: center; background-color: transparent; 
-                         border: 1px solid #4ade80; border-radius: 0.5rem; color: #4ade80; 
+          <button id="toggleExtra"
+                  style="width: 100%; margin-top: 1rem; text-align: center; background-color: transparent;
+                         border: 1px solid #4ade80; border-radius: 0.5rem; color: #4ade80;
                          cursor: pointer; padding: 1rem; font-weight: 600;">
-            Open More Articles
+            もっと見る
           </button>
-          <!-- Extra articles (hidden by default) -->
           <div id="extraArticles">
             <!-- Stentre Column -->
-            <a href="https://www.stentre.net/column/132/" 
+            <a href="https://www.stentre.net/column/132/"
                target="_blank" rel="noopener noreferrer">
-              <span>Stentre Column</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                   viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+              <span>Stentre コラム</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor"
                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 13v6a2 2 0 0 1-2 
+                <path d="M18 13v6a2 2 0 0 1-2
                          2H5a2 2 0 0 1-2-2V8
                          a2 2 0 0 1 2-2h6"></path>
                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -410,13 +404,13 @@
               </svg>
             </a>
             <!-- the-elements.jp article -->
-            <a href="https://the-elements.jp/posts/Mbyugia0" 
+            <a href="https://the-elements.jp/posts/Mbyugia0"
                target="_blank" rel="noopener noreferrer">
-              <span>Solving Disability Challenges through Entrepreneurship and Innovation</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                   viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+              <span>起業とイノベーションで障害の課題を解決する</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor"
                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M18 13v6a2 2 0 0 1-2 
+                <path d="M18 13v6a2 2 0 0 1-2
                          2H5a2 2 0 0 1-2-2V8
                          a2 2 0 0 1 2-2h6"></path>
                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -430,39 +424,39 @@
 
     <!-- Timeline -->
     <div class="timeline">
-      <h2>Professional Timeline</h2>
+      <h2>経歴</h2>
       <div id="timelineContent"></div>
     </div>
 
-    <!-- Presentations (Speaking History) -->
+    <!-- Presentations -->
     <div class="presentations">
-      <h2>Presentations (Speaking History)</h2>
+      <h2>登壇歴</h2>
       <div id="presentationsContent"></div>
     </div>
 
     <!-- Personal Blogs -->
     <div class="blogs">
-      <h2>Personal Blogs</h2>
-      <a href="https://note.com/katsuki_ono/" 
+      <h2>ブログ</h2>
+      <a href="https://note.com/katsuki_ono/"
          target="_blank" rel="noopener noreferrer">
-        <span>Katsuki Ono's Note</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+        <span>小野克樹のnote</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor"
              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 13v6a2 2 0 0 1-2 
+          <path d="M18 13v6a2 2 0 0 1-2
                    2H5a2 2 0 0 1-2-2V8
                    a2 2 0 0 1 2-2h6"></path>
           <polyline points="15 3 21 3 21 9"></polyline>
           <line x1="10" y1="14" x2="21" y2="3"></line>
         </svg>
       </a>
-      <a href="https://qiita.com/katsuki_ono" 
+      <a href="https://qiita.com/katsuki_ono"
          target="_blank" rel="noopener noreferrer">
-        <span>Katsuki Ono's Qiita</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+        <span>小野克樹のQiita</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor"
              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 13v6a2 2 0 0 1-2 
+          <path d="M18 13v6a2 2 0 0 1-2
                    2H5a2 2 0 0 1-2-2V8
                    a2 2 0 0 1 2-2h6"></path>
           <polyline points="15 3 21 3 21 9"></polyline>
@@ -517,78 +511,78 @@
     });
 
     // ===============================
-    // Timeline data and rendering
+    // Timeline data (Japanese)
     // ===============================
     const timelineData = [
       {
-        title: "Education and Early Achievements",
+        title: "学歴・初期の実績",
         items: [
-          { year: 2017, description: "Team Winner, Industry-Academia Collaboration Project Presentation" },
-          { year: 2018, description: "Bachelor of Commerce, Waseda University" },
-          { year: 2021, description: "Master's in Asia-Pacific Studies, Waseda University" },
+          { year: 2017, description: "産学連携プロジェクト発表会 チーム優勝" },
+          { year: 2018, description: "早稲田大学 商学部 卒業" },
+          { year: 2021, description: "早稲田大学 アジア太平洋研究科 修士課程 修了" },
         ]
       },
       {
-        title: "Career Development and Further Education",
+        title: "キャリア開発",
         items: [
-          { year: 2021, description: "3rd WASEDA DEMO DAY (SUMS×WASEDA EDGE Award, Professor Takiguchi's Mentor Award)" },
-          { year: 2021, description: "Excellence Award, SUMS PITCH" },
-          { year: 2021, description: "Finalist, Social Innovation Challenge Japan (UNDP et al.)" },
+          { year: 2021, description: "第3回 WASEDA DEMO DAY（SUMS×WASEDA EDGE賞、瀧口教授メンター賞）" },
+          { year: 2021, description: "SUMS PITCH 優秀賞" },
+          { year: 2021, description: "Social Innovation Challenge Japan ファイナリスト（UNDP他）" },
         ]
       },
       {
-        title: "Professional Experience",
+        title: "職務経験",
         items: [
-          { year: "2021 - 2024", description: "Freelance, Gaiax (Twitter management, report writing, research, etc.)" },
-          { year: "2021 - Present", description: "Freelance, University-affiliated VC (Email marketing, marketing support, tool development, etc.)" },
+          { year: "2021 - 2024", description: "フリーランス、ガイアックス（Twitter運用、レポート作成、リサーチ等）" },
+          { year: "2021 - 現在", description: "フリーランス、大学系VC（メールマーケティング、マーケティング支援、ツール開発等）" },
         ]
       },
       {
-        title: "Entrepreneurship and Leadership",
+        title: "起業・リーダーシップ",
         items: [
-          { year: "2022 - Present", description: "Representative, Disability Employment Business" },
-          { year: "2022 - 2023", description: "Freelance Advisor, Medical Startup" },
-          { year: "2023 - Present", description: "Head of Career Department, Barrier-Free Liberal Arts University" },
-          { year: "2025 - Present", description: "LLM Development Team Leader (10-member team), Matsuo Lab, The University of Tokyo" },
+          { year: "2022 - 現在", description: "障害者雇用事業 代表" },
+          { year: "2022 - 2023", description: "フリーランスアドバイザー、医療系スタートアップ" },
+          { year: "2023 - 現在", description: "バリアフリー教養大学 キャリア部門長" },
+          { year: "2025 - 現在", description: "東京大学松尾研究室 LLM開発チームリーダー（10名規模）" },
         ]
       },
       {
-        title: "Awards and Programs",
+        title: "受賞・プログラム",
         items: [
-          { year: 2022, description: "Japan Representative, Youth Co:Lab Summit (UNDP et al.)" },
-          { year: 2022, description: "Springboard Program Participant (UNDP et al.)" },
-          { year: 2022, description: "INO-Vation Program" },
-          { year: 2023, description: "Springboard Elevator Program Participant (UNDP et al.)" },
-          { year: 2023, description: "Certified INO-β by Ministry of Internal Affairs and Communications" },
-          { year: 2024, description: "9th Cohort, SHIDO Program (Demo Day Presenter)" },
-          { year: 2024, description: "UPDATE EARTH (INNOVATION AWARD / Exhibitor)" },
-          { year: 2025, description: "Matsuo Lab LLM Competition 2025: 1st Place (Qualifying Round) / 3rd Place (Final) - Team oNo.1 Leader (30-70 members), The University of Tokyo" },
+          { year: 2022, description: "Youth Co:Lab Summit 日本代表（UNDP他）" },
+          { year: 2022, description: "Springboard Program 参加（UNDP他）" },
+          { year: 2022, description: "異能vationプログラム" },
+          { year: 2023, description: "Springboard Elevator Program 参加（UNDP他）" },
+          { year: 2023, description: "総務省 異能β 認定" },
+          { year: 2024, description: "SHIDO Program 第9期（Demo Day登壇）" },
+          { year: 2024, description: "UPDATE EARTH（INNOVATION AWARD / 出展）" },
+          { year: 2025, description: "松尾研LLMコンペ2025：予選1位 / 決勝3位 - チームoNo.1リーダー（30-70名規模）、東京大学" },
         ]
       },
       {
-        title: "Other Notable Achievements",
+        title: "その他の実績",
         items: [
-          { description: "Released 8 iOS apps (Highest rank: 24th in Entertainment)" },
-          { description: "22 articles on Qiita (Highest: Weekly Ranking, 40,000+ views)" },
-          { description: "AI creation from table data" },
-          { description: "Gold rank, Signate Manabi DX Quest" },
-          { description: "Micro MBA (Waseda University × University of California)" },
-          { description: "Policy proposal at Japan Climate Youth Conference" },
+          { description: "iOSアプリ8本リリース（最高24位：エンタメ部門）" },
+          { description: "Qiita記事22本（週間ランキング入り、4万PV超）" },
+          { description: "テーブルデータからAI作成" },
+          { description: "Signate Manabi DX Quest ゴールドランク" },
+          { description: "Micro MBA（早稲田大学×カリフォルニア大学）" },
+          { description: "Japan Climate Youth Conference 政策提言" },
         ]
       },
       {
-        title: "International Exchange Activities",
+        title: "国際交流",
         items: [
           { description: "U21 Global Citizenship" },
           { description: "TOMODACHI Story Jam Program" },
         ]
       },
       {
-        title: "Disability Advocacy",
+        title: "障害者アドボカシー",
         items: [
-          { description: "Implementing employment support projects for people with disabilities" },
-          { description: "Participant, DO-IT JAPAN (Leadership development project for students with disabilities)" },
-          { description: "Disability advocate with progressive neurological condition similar to ALS" },
+          { description: "障害者就労支援事業の実施" },
+          { description: "DO-IT JAPAN 参加（障害のある学生のリーダーシップ育成プロジェクト）" },
+          { description: "ALSに類似した進行性神経疾患を持つ障害者アドボケイト" },
         ]
       },
     ];
@@ -602,8 +596,8 @@
           <div class="card-content">
             <button onclick="toggleSection(${index})">
               ${section.title}
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                   viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                   viewBox="0 0 24 24" fill="none" stroke="currentColor"
                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
@@ -630,63 +624,59 @@
     renderTimeline();
 
     // ===============================
-    // Presentations (Speaking History)
+    // Presentations (Japanese)
     // ===============================
     const presentationsData = [
       {
         year: 2021,
-        title: "Rikkyo University (2021)",
+        title: "立教大学（2021）",
         link: null
       },
       {
         year: 2023,
-        title: "Benesse (2023)",
+        title: "ベネッセ（2023）",
         link: null
       },
       {
         year: 2024,
-        title: "The University of Tokyo × UNDP (2024)",
+        title: "東京大学 × UNDP（2024）",
         link: "https://www.youtube.com/embed/MrUpoW76Gkk"
       },
       {
         year: 2024,
-        title: "Waseda University (2024)",
+        title: "早稲田大学（2024）",
         link: null
       },
       {
         year: 2025,
-        title: "Inclusive Hub (2025)",
+        title: "Inclusive Hub（2025）",
         link: "https://inclusivehub-meetup-09.peatix.com"
       },
       {
         year: 2025,
-        title: "Matsuo Lab LLM Competition 2025 - 1st (Qualifying) / 3rd (Final) - Team oNo.1 (30-70 members)",
+        title: "松尾研LLMコンペ2025 - 予選1位 / 決勝3位 - チームoNo.1（30-70名規模）",
         link: "https://www.youtube.com/embed/WnhfTP0BQQ4",
         extraLinks: [
-          { label: "Presentation Slides (Google Drive)", url: "https://drive.google.com/file/d/1hBzkR1vcHQrVyB7y1E5YASU7rn-ChUOI/view" },
-          { label: "Official Article (UTokyo)", url: "https://weblab.t.u-tokyo.ac.jp/news/2025-12-03-2/" }
+          { label: "発表資料（Google Drive）", url: "https://drive.google.com/file/d/1hBzkR1vcHQrVyB7y1E5YASU7rn-ChUOI/view" },
+          { label: "公式記事（東京大学）", url: "https://weblab.t.u-tokyo.ac.jp/news/2025-12-03-2/" }
         ]
       },
     ];
 
     function renderPresentations() {
       const presentationsContent = document.getElementById('presentationsContent');
-      
+
       presentationsData.forEach((item, index) => {
-        // カード作成
         const card = document.createElement('div');
         card.className = 'card';
-        
-        // link がある場合 → ボタン + 展開エリア
-        // link が null → シンプルな表示のみ
+
         if (item.link) {
-          // リンクあり
           card.innerHTML = `
             <div class="card-content">
               <button onclick="togglePresentation(${index})">
                 <strong>${item.year}</strong> - ${item.title}
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                     viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="6 9 12 15 18 9"></polyline>
                 </svg>
@@ -707,7 +697,7 @@
                            target="_blank"
                            rel="noopener noreferrer"
                            style="color:#86efac; text-decoration:underline;">
-                          Click here to view
+                          こちらをクリック
                         </a>
                       </p>
                     `
@@ -734,7 +724,6 @@
             </div>
           `;
         } else {
-          // リンクなし
           card.innerHTML = `
             <div class="card-content">
               <div style="font-weight: 600;">
@@ -764,10 +753,10 @@
     toggleExtraBtn.addEventListener('click', () => {
       if (extraArticles.style.display === 'none') {
         extraArticles.style.display = 'block';
-        toggleExtraBtn.textContent = 'Close Articles';
+        toggleExtraBtn.textContent = '閉じる';
       } else {
         extraArticles.style.display = 'none';
-        toggleExtraBtn.textContent = 'Open More Articles';
+        toggleExtraBtn.textContent = 'もっと見る';
       }
     });
   </script>
