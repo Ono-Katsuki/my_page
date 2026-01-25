@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ono-katsuki.github.io/my_page/sitemap.xml

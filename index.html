@@ -4,6 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Katsuki Ono - Professional Timeline</title>
+
+  <!-- SEO基本 -->
+  <meta name="description" content="Katsuki Ono - Entrepreneur, LLM Developer, CEO of EqualFrontiers, LLM Team Leader at Matsuo Lab (UTokyo). 1st Place (Qualifying) / 3rd Place (Final) at Matsuo Lab LLM Competition 2025. Disability Advocate with ALS-like condition.">
+  <meta name="keywords" content="Katsuki Ono, 小野克樹, EqualFrontiers, LLM, Large Language Model, Matsuo Lab, 松尾研, UTokyo, 東京大学, Disability Advocacy, Entrepreneur, Waseda University, 早稲田大学, Youth Co:Lab, AI, Machine Learning">
+  <meta name="author" content="Katsuki Ono">
+
+  <!-- OGP (SNSシェア用) -->
+  <meta property="og:title" content="Katsuki Ono - Entrepreneur & LLM Developer">
+  <meta property="og:description" content="CEO of EqualFrontiers | LLM Team Leader at Matsuo Lab, UTokyo | 1st/3rd Place at Matsuo Lab LLM Competition 2025 | Disability Advocate">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ono-katsuki.github.io/my_page/">
+  <meta property="og:site_name" content="Katsuki Ono">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="ja_JP">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Katsuki Ono - Entrepreneur & LLM Developer">
+  <meta name="twitter:description" content="CEO of EqualFrontiers | LLM Team Leader at Matsuo Lab, UTokyo | Disability Advocate">
+
+  <!-- 追加SEO -->
+  <link rel="canonical" href="https://ono-katsuki.github.io/my_page/">
+  <meta name="robots" content="index, follow">
   <style>
     body {
       font-family: monospace;
@@ -28,8 +51,18 @@
     }
     .subtitle {
       text-align: center;
+      margin-bottom: 1rem;
+      color: #86efac;
+    }
+    .intro {
+      text-align: center;
       margin-bottom: 3rem;
       color: #86efac;
+      font-size: 0.9rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
     }
     .grid {
       display: grid;
@@ -162,6 +195,7 @@
   <div class="container">
     <h1>Katsuki Ono</h1>
     <p class="subtitle">Feel free to contact me</p>
+    <p class="intro">Entrepreneur & LLM Developer | CEO of EqualFrontiers | LLM Team Leader at Matsuo Lab, UTokyo | Disability Advocate with a progressive neurological condition similar to ALS | Waseda University (BA, MA)</p>
 
     <!-- Connect & Articles in a grid -->
     <div class="grid">
@@ -482,6 +516,7 @@
           { year: "2022 - Present", description: "Representative, Disability Employment Business" },
           { year: "2022 - 2023", description: "Freelance Advisor, Medical Startup" },
           { year: "2023 - Present", description: "Head of Career Department, Barrier-Free Liberal Arts University" },
+          { year: "2025 - Present", description: "LLM Development Team Leader (10-member team), Matsuo Lab, The University of Tokyo" },
         ]
       },
       {
@@ -494,6 +529,7 @@
           { year: 2023, description: "Certified INO-β by Ministry of Internal Affairs and Communications" },
           { year: 2024, description: "9th Cohort, SHIDO Program (Demo Day Presenter)" },
           { year: 2024, description: "UPDATE EARTH (INNOVATION AWARD / Exhibitor)" },
+          { year: 2025, description: "Matsuo Lab LLM Competition 2025: 1st Place (Qualifying Round) / 3rd Place (Final) - Team oNo.1 Leader (30-70 members), The University of Tokyo" },
         ]
       },
       {
@@ -589,6 +625,15 @@
         title: "Inclusive Hub (2025)",
         link: "https://inclusivehub-meetup-09.peatix.com"
       },
+      {
+        year: 2025,
+        title: "Matsuo Lab LLM Competition 2025 - 1st (Qualifying) / 3rd (Final) - Team oNo.1 (30-70 members)",
+        link: "https://www.youtube.com/embed/WnhfTP0BQQ4",
+        extraLinks: [
+          { label: "Presentation Slides (Google Drive)", url: "https://drive.google.com/file/d/1hBzkR1vcHQrVyB7y1E5YASU7rn-ChUOI/view" },
+          { label: "Official Article (UTokyo)", url: "https://weblab.t.u-tokyo.ac.jp/news/2025-12-03-2/" }
+        ]
+      },
     ];
 
     function renderPresentations() {
@@ -618,21 +663,39 @@
                   item.link.includes('youtube.com/embed')
                     ? `
                       <div class="video-container">
-                        <iframe src="${item.link}" 
+                        <iframe src="${item.link}"
                                 frameborder="0" allowfullscreen>
                         </iframe>
                       </div>
                     `
                     : `
                       <p style="margin-top:1rem;">
-                        <a href="${item.link}" 
-                           target="_blank" 
-                           rel="noopener noreferrer" 
+                        <a href="${item.link}"
+                           target="_blank"
+                           rel="noopener noreferrer"
                            style="color:#86efac; text-decoration:underline;">
                           Click here to view
                         </a>
                       </p>
                     `
+                }
+                ${
+                  item.extraLinks
+                    ? `
+                      <div style="margin-top:1rem;">
+                        ${item.extraLinks.map(extra => `
+                          <p style="margin-bottom:0.5rem;">
+                            <a href="${extra.url}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               style="color:#86efac; text-decoration:underline;">
+                              → ${extra.label}
+                            </a>
+                          </p>
+                        `).join('')}
+                      </div>
+                    `
+                    : ''
                 }
               </div>
             </div>
