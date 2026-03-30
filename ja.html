@@ -768,7 +768,7 @@
           card.innerHTML = `
             <div class="card-content">
               <button onclick="togglePresentation(${index})">
-                <strong>${item.year}</strong> - ${item.title}
+                <span style="flex:1;text-align:left;"><strong>${item.year}</strong> - ${item.title}</span>
                 <span id="presentation-icon-${index}">▼</span>
               </button>
               <div id="presentation-${index}" style="display: none;">
