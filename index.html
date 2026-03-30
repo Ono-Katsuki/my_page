@@ -184,6 +184,14 @@
     .card button:hover {
       background-color: rgba(74, 222, 128, 0.1);
     }
+    .card button:active,
+    .bio-toggle button:active,
+    .blogs a:active,
+    .articles a:active,
+    .connect a:active,
+    .lang-switch a:active {
+      transform: scale(0.98);
+    }
     .card ul {
       list-style-type: disc;
       padding-left: 1.25rem;
@@ -283,7 +291,7 @@
     <p class="intro">Entrepreneur & LLM Developer | CEO of EqualFrontiers | Former Medical LLM Project Sub-team Leader at Matsuo Lab, UTokyo | Disability Advocate with a progressive neurological condition similar to ALS | Waseda University (BA, MA)</p>
 
     <div class="bio-toggle">
-      <button onclick="toggleBio()">Read More</button>
+      <button onclick="toggleBio()">Read More ▼</button>
     </div>
     <div class="bio-detail" id="bioDetail">
       <p>I was born with a progressive neurological condition similar to ALS. I cannot operate an electric wheelchair, write, breathe without assistance, or speak. I am bedridden and communicate solely through an iPad, controlled by a switch I press with my head.</p>
@@ -467,7 +475,7 @@
                   style="width: 100%; margin-top: 1rem; text-align: center; background-color: transparent; 
                          border: 1px solid #4ade80; border-radius: 0.5rem; color: #4ade80; 
                          cursor: pointer; padding: 1rem; font-weight: 600;">
-            Open More Articles
+            Open More Articles ▼
           </button>
           <!-- Extra articles (hidden by default) -->
           <div id="extraArticles">
@@ -685,11 +693,7 @@
           <div class="card-content">
             <button onclick="toggleSection(${index})">
               ${section.title}
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                   viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+              <span id="section-icon-${index}">▼</span>
             </button>
             <ul id="section-${index}" style="display: none;">
               ${section.items.map(item => `
@@ -707,7 +711,14 @@
 
     function toggleSection(index) {
       const section = document.getElementById(`section-${index}`);
-      section.style.display = section.style.display === 'none' ? 'block' : 'none';
+      const icon = document.getElementById(`section-icon-${index}`);
+      if (section.style.display === 'none') {
+        section.style.display = 'block';
+        icon.textContent = '▲';
+      } else {
+        section.style.display = 'none';
+        icon.textContent = '▼';
+      }
     }
 
     renderTimeline();
@@ -768,11 +779,7 @@
             <div class="card-content">
               <button onclick="togglePresentation(${index})">
                 <strong>${item.year}</strong> - ${item.title}
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                     viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
+                <span id="presentation-icon-${index}">▼</span>
               </button>
               <div id="presentation-${index}" style="display: none;">
                 ${
@@ -833,7 +840,14 @@
 
     function togglePresentation(index) {
       const presentation = document.getElementById(`presentation-${index}`);
-      presentation.style.display = presentation.style.display === 'none' ? 'block' : 'none';
+      const icon = document.getElementById(`presentation-icon-${index}`);
+      if (presentation.style.display === 'none') {
+        presentation.style.display = 'block';
+        icon.textContent = '▲';
+      } else {
+        presentation.style.display = 'none';
+        icon.textContent = '▼';
+      }
     }
 
     renderPresentations();
@@ -847,10 +861,10 @@
     toggleExtraBtn.addEventListener('click', () => {
       if (extraArticles.style.display === 'none') {
         extraArticles.style.display = 'block';
-        toggleExtraBtn.textContent = 'Close Articles';
+        toggleExtraBtn.textContent = 'Close Articles ▲';
       } else {
         extraArticles.style.display = 'none';
-        toggleExtraBtn.textContent = 'Open More Articles';
+        toggleExtraBtn.textContent = 'Open More Articles ▼';
       }
     });
 
@@ -862,10 +876,10 @@
       const bioBtn = document.querySelector('.bio-toggle button');
       if (bioDetail.style.display === 'none' || bioDetail.style.display === '') {
         bioDetail.style.display = 'block';
-        bioBtn.textContent = 'Close';
+        bioBtn.textContent = 'Close ▲';
       } else {
         bioDetail.style.display = 'none';
-        bioBtn.textContent = 'Read More';
+        bioBtn.textContent = 'Read More ▼';
       }
     }
   </script>

@@ -234,6 +234,14 @@
     .card button:hover {
       background-color: rgba(74, 222, 128, 0.1);
     }
+    .card button:active,
+    .bio-toggle button:active,
+    .blogs a:active,
+    .articles a:active,
+    .connect a:active,
+    .lang-switch a:active {
+      transform: scale(0.98);
+    }
     .card ul {
       list-style-type: disc;
       padding-left: 1.25rem;
@@ -281,7 +289,7 @@
     <p class="intro">起業家 & LLM開発者 | EqualFrontiers代表 | 元東京大学松尾研究室 医療LLMプロジェクト サブチームリーダー | ALSに類似した進行性神経疾患を持つ障害当事者として活動 | 早稲田大学（学士・修士）</p>
 
     <div class="bio-toggle">
-      <button onclick="toggleBio()">詳しく見る</button>
+      <button onclick="toggleBio()">詳しく見る ▼</button>
     </div>
     <div class="bio-detail" id="bioDetail">
       <p>私はALSに類似した先天性の進行性神経疾患を持っています。電動車椅子の操作、筆記、自発呼吸、発話のいずれもできません。寝たきりの状態で、頭で押すスイッチを使ってiPadを操作し、それだけでコミュニケーションを取っています。</p>
@@ -462,7 +470,7 @@
                   style="width: 100%; margin-top: 1rem; text-align: center; background-color: transparent;
                          border: 1px solid #4ade80; border-radius: 0.5rem; color: #4ade80;
                          cursor: pointer; padding: 1rem; font-weight: 600;">
-            もっと見る
+            もっと見る ▼
           </button>
           <div id="extraArticles">
             <!-- Stentre Column -->
@@ -679,11 +687,7 @@
           <div class="card-content">
             <button onclick="toggleSection(${index})">
               ${section.title}
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                   viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
+              <span id="section-icon-${index}">▼</span>
             </button>
             <ul id="section-${index}" style="display: none;">
               ${section.items.map(item => `
@@ -701,7 +705,14 @@
 
     function toggleSection(index) {
       const section = document.getElementById(`section-${index}`);
-      section.style.display = section.style.display === 'none' ? 'block' : 'none';
+      const icon = document.getElementById(`section-icon-${index}`);
+      if (section.style.display === 'none') {
+        section.style.display = 'block';
+        icon.textContent = '▲';
+      } else {
+        section.style.display = 'none';
+        icon.textContent = '▼';
+      }
     }
 
     renderTimeline();
@@ -758,11 +769,7 @@
             <div class="card-content">
               <button onclick="togglePresentation(${index})">
                 <strong>${item.year}</strong> - ${item.title}
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
+                <span id="presentation-icon-${index}">▼</span>
               </button>
               <div id="presentation-${index}" style="display: none;">
                 ${
@@ -822,7 +829,14 @@
 
     function togglePresentation(index) {
       const presentation = document.getElementById(`presentation-${index}`);
-      presentation.style.display = presentation.style.display === 'none' ? 'block' : 'none';
+      const icon = document.getElementById(`presentation-icon-${index}`);
+      if (presentation.style.display === 'none') {
+        presentation.style.display = 'block';
+        icon.textContent = '▲';
+      } else {
+        presentation.style.display = 'none';
+        icon.textContent = '▼';
+      }
     }
 
     renderPresentations();
@@ -836,10 +850,10 @@
     toggleExtraBtn.addEventListener('click', () => {
       if (extraArticles.style.display === 'none') {
         extraArticles.style.display = 'block';
-        toggleExtraBtn.textContent = '閉じる';
+        toggleExtraBtn.textContent = '閉じる ▲';
       } else {
         extraArticles.style.display = 'none';
-        toggleExtraBtn.textContent = 'もっと見る';
+        toggleExtraBtn.textContent = 'もっと見る ▼';
       }
     });
 
@@ -851,10 +865,10 @@
       const bioBtn = document.querySelector('.bio-toggle button');
       if (bioDetail.style.display === 'none' || bioDetail.style.display === '') {
         bioDetail.style.display = 'block';
-        bioBtn.textContent = '閉じる';
+        bioBtn.textContent = '閉じる ▲';
       } else {
         bioDetail.style.display = 'none';
-        bioBtn.textContent = '詳しく見る';
+        bioBtn.textContent = '詳しく見る ▼';
       }
     }
   </script>
