@@ -193,6 +193,9 @@
     .lang-switch a:active {
       transform: scale(0.98);
     }
+    button, a {
+      touch-action: manipulation;
+    }
     .card ul {
       list-style-type: disc;
       padding-left: 2.25rem;
@@ -873,8 +876,7 @@
     const toggleExtraBtn = document.getElementById('toggleExtra');
     const extraArticles = document.getElementById('extraArticles');
 
-    function toggleExtraArticles(e) {
-      e.preventDefault();
+    toggleExtraBtn.addEventListener('click', () => {
       if (extraArticles.style.display === 'none') {
         extraArticles.style.display = 'block';
         toggleExtraBtn.textContent = 'Close Articles ▲';
@@ -882,9 +884,7 @@
         extraArticles.style.display = 'none';
         toggleExtraBtn.textContent = 'Open More Articles ▼';
       }
-    }
-    toggleExtraBtn.addEventListener('click', toggleExtraArticles);
-    toggleExtraBtn.addEventListener('touchend', toggleExtraArticles);
+    });
 
     // ===============================
     // Bio toggle
