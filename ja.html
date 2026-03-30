@@ -862,7 +862,8 @@
     const toggleExtraBtn = document.getElementById('toggleExtra');
     const extraArticles = document.getElementById('extraArticles');
 
-    toggleExtraBtn.addEventListener('click', () => {
+    function toggleExtraArticles(e) {
+      e.preventDefault();
       if (extraArticles.style.display === 'none') {
         extraArticles.style.display = 'block';
         toggleExtraBtn.textContent = '閉じる ▲';
@@ -870,7 +871,9 @@
         extraArticles.style.display = 'none';
         toggleExtraBtn.textContent = 'もっと見る ▼';
       }
-    });
+    }
+    toggleExtraBtn.addEventListener('click', toggleExtraArticles);
+    toggleExtraBtn.addEventListener('touchend', toggleExtraArticles);
 
     // ===============================
     // Bio toggle
