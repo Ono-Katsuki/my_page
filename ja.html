@@ -174,28 +174,16 @@
       margin-bottom: 1.5rem;
       font-size: 0.9rem;
     }
-    .contact-options {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    @media (min-width: 600px) {
-      .contact-options {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
     .contact-section a.contact-btn {
-      display: block;
+      display: inline-block;
       color: #4ade80;
       background-color: transparent;
       text-decoration: none;
-      padding: 0.75rem 1rem;
+      padding: 0.75rem 2.25rem;
       border: 1px solid #4ade80;
       border-radius: 0.25rem;
       font-weight: 600;
-      font-size: 0.9rem;
+      letter-spacing: 0.05em;
       transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
     }
     .contact-section a.contact-btn:hover {
@@ -204,6 +192,14 @@
     }
     .contact-section a.contact-btn:active {
       transform: scale(0.97);
+    }
+    .contact-categories {
+      margin-top: 1rem;
+      margin-bottom: 0;
+      font-size: 0.8rem;
+      color: #86efac;
+      opacity: 0.75;
+      line-height: 1.5;
     }
     .intro {
       text-align: center;
@@ -382,13 +378,9 @@
     </div>
 
     <div class="contact-section">
-      <p class="subtitle">ご用途別にご連絡ください</p>
-      <div class="contact-options">
-        <a href="mailto:katsuki.ono@equalfrontiers.com?subject=%E5%8F%96%E6%9D%90%E3%83%BB%E7%99%BB%E5%A3%87%E3%81%AE%E3%81%94%E4%BE%9D%E9%A0%BC" class="contact-btn">取材・登壇のご依頼</a>
-        <a href="mailto:katsuki.ono@equalfrontiers.com?subject=AI%2FLLM%E9%96%8B%E7%99%BA%E3%81%AE%E3%81%94%E7%9B%B8%E8%AB%87" class="contact-btn">AI / LLM開発のご相談</a>
-        <a href="mailto:katsuki.ono@equalfrontiers.com?subject=%E9%9A%9C%E5%AE%B3%E8%80%85%E9%9B%87%E7%94%A8%E3%83%BB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B7%E3%83%93%E3%83%AA%E3%83%86%E3%82%A3%E3%81%AE%E3%81%94%E7%9B%B8%E8%AB%87" class="contact-btn">障害者雇用・アクセシビリティ</a>
-        <a href="mailto:katsuki.ono@equalfrontiers.com?subject=%E7%A0%94%E7%A9%B6%E3%83%BB%E4%BA%8B%E6%A5%AD%E9%80%A3%E6%90%BA%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6" class="contact-btn">研究・事業連携</a>
-      </div>
+      <p class="subtitle">取材・登壇・お仕事のご依頼はお気軽にご連絡ください</p>
+      <a href="mailto:katsuki.ono@equalfrontiers.com" class="contact-btn">メールで連絡する</a>
+      <p class="contact-categories">取材・登壇 ・ AI / LLM開発 ・ 障害者雇用・アクセシビリティ ・ 研究・事業連携</p>
     </div>
 
     <!-- Connect & Articles in a grid -->

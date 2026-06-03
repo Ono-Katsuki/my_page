@@ -124,28 +124,16 @@
       margin-bottom: 1.5rem;
       font-size: 0.9rem;
     }
-    .contact-options {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    @media (min-width: 600px) {
-      .contact-options {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
     .contact-section a.contact-btn {
-      display: block;
+      display: inline-block;
       color: #4ade80;
       background-color: transparent;
       text-decoration: none;
-      padding: 0.75rem 1rem;
+      padding: 0.75rem 2.25rem;
       border: 1px solid #4ade80;
       border-radius: 0.25rem;
       font-weight: 600;
-      font-size: 0.9rem;
+      letter-spacing: 0.05em;
       transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
     }
     .contact-section a.contact-btn:hover {
@@ -154,6 +142,14 @@
     }
     .contact-section a.contact-btn:active {
       transform: scale(0.97);
+    }
+    .contact-categories {
+      margin-top: 1rem;
+      margin-bottom: 0;
+      font-size: 0.8rem;
+      color: #86efac;
+      opacity: 0.75;
+      line-height: 1.5;
     }
     .intro {
       text-align: center;
@@ -385,12 +381,8 @@
 
     <div class="contact-section">
       <p class="subtitle">Open to interviews, speaking engagements, and work inquiries.</p>
-      <div class="contact-options">
-        <a href="mailto:katsuki.ono@equalfrontiers.com?subject=Press%20%26%20Speaking%20Inquiry" class="contact-btn">Press &amp; Speaking</a>
-        <a href="mailto:katsuki.ono@equalfrontiers.com?subject=AI%20%2F%20LLM%20Development" class="contact-btn">AI / LLM Development</a>
-        <a href="mailto:katsuki.ono@equalfrontiers.com?subject=Disability%20%26%20Accessibility" class="contact-btn">Disability &amp; Accessibility</a>
-        <a href="mailto:katsuki.ono@equalfrontiers.com?subject=Research%20%26%20Partnership" class="contact-btn">Research &amp; Partnership</a>
-      </div>
+      <a href="mailto:katsuki.ono@equalfrontiers.com" class="contact-btn">Email Katsuki</a>
+      <p class="contact-categories">Press &amp; speaking · AI / LLM development · Disability &amp; accessibility · Research &amp; partnership</p>
     </div>
 
     <!-- Connect & Articles in a grid -->
