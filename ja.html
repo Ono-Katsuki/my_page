@@ -161,17 +161,36 @@
     }
     .subtitle {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.25rem;
       color: #86efac;
     }
-    .subtitle a {
+    .contact-section {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      margin: 2rem auto 3rem;
+      max-width: 700px;
+    }
+    .contact-section .subtitle {
+      margin-bottom: 1.5rem;
+    }
+    .contact-section a.contact-btn {
+      display: inline-block;
       color: #4ade80;
-      text-decoration: underline;
-      text-underline-offset: 0.25em;
-      transition: color 0.3s;
+      background-color: transparent;
+      text-decoration: none;
+      padding: 0.75rem 2.25rem;
+      border: 1px solid #4ade80;
+      border-radius: 0.25rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
     }
-    .subtitle a:hover {
-      color: #86efac;
+    .contact-section a.contact-btn:hover {
+      background-color: rgba(74, 222, 128, 0.1);
+      box-shadow: 0 0 15px rgba(74, 222, 128, 0.35);
+    }
+    .contact-section a.contact-btn:active {
+      transform: scale(0.97);
     }
     .intro {
       text-align: center;
@@ -349,7 +368,10 @@
       <p>私の活動が、寝たきりであっても何ができるかを示す一つの例になれば幸いです。</p>
     </div>
 
-    <p class="subtitle">取材・登壇・お仕事のご依頼はお気軽に<a href="#connect">ご連絡ください</a></p>
+    <div class="contact-section">
+      <p class="subtitle">取材・登壇・お仕事のご依頼はお気軽にご連絡ください</p>
+      <a href="#connect" class="contact-btn">ご依頼・お問い合わせ</a>
+    </div>
 
     <!-- Connect & Articles in a grid -->
     <div class="grid">
