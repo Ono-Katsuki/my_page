@@ -124,16 +124,28 @@
       margin-bottom: 1.5rem;
       font-size: 0.9rem;
     }
+    .contact-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    @media (min-width: 600px) {
+      .contact-options {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
     .contact-section a.contact-btn {
-      display: inline-block;
+      display: block;
       color: #4ade80;
       background-color: transparent;
       text-decoration: none;
-      padding: 0.75rem 2.25rem;
+      padding: 0.75rem 1rem;
       border: 1px solid #4ade80;
       border-radius: 0.25rem;
       font-weight: 600;
-      letter-spacing: 0.05em;
+      font-size: 0.9rem;
       transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
     }
     .contact-section a.contact-btn:hover {
@@ -373,7 +385,12 @@
 
     <div class="contact-section">
       <p class="subtitle">Open to interviews, speaking engagements, and work inquiries.</p>
-      <a href="mailto:katsuki.ono@equalfrontiers.com" class="contact-btn">Email Katsuki</a>
+      <div class="contact-options">
+        <a href="mailto:katsuki.ono@equalfrontiers.com?subject=Press%20%26%20Speaking%20Inquiry" class="contact-btn">Press &amp; Speaking</a>
+        <a href="mailto:katsuki.ono@equalfrontiers.com?subject=AI%20%2F%20LLM%20Development" class="contact-btn">AI / LLM Development</a>
+        <a href="mailto:katsuki.ono@equalfrontiers.com?subject=Disability%20%26%20Accessibility" class="contact-btn">Disability &amp; Accessibility</a>
+        <a href="mailto:katsuki.ono@equalfrontiers.com?subject=Research%20%26%20Partnership" class="contact-btn">Research &amp; Partnership</a>
+      </div>
     </div>
 
     <!-- Connect & Articles in a grid -->
